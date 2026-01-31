@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# CineLab (React + Vite + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CineLab es una aplicación para buscar y explorar películas usando la API de TMDB.  
+Esta versión está construida con React, Vite, TypeScript y Tailwind CSS v3 — ideal como proyecto para practicar frontend con consumo de APIs y buenas prácticas.
 
-Currently, two official plugins are available:
+Estado
+- Estado: en desarrollo
+- Objetivo: proyecto para aprender React / hooks / testing y para tener un proyecto deployable en portfolio.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Stack principal
+- React + Vite + TypeScript
+- Tailwind CSS v3
+- Axios (HTTP client)
+- react-router-dom
+- react-hook-form + Zod (formularios y validación)
+- Vitest + Testing Library (tests)
+- ESLint + Prettier (lint & format)
+- Bun (gestor de paquetes / runtime) — comandos mostrados asumen Bun
 
-## React Compiler
+Requisitos
+- Bun instalado (recomendado) o Node.js + npm si lo prefieres
+- Cuenta en The Movie Database (TMDB) para obtener VITE_TMDB_API_KEY
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Instalación y setup (rápido)
+```bash
+# clonar (si aún no lo hiciste)
+git clone git@github.com:TU_USUARIO/TU_REPO.git
+cd TU_REPO
 
-## Expanding the ESLint configuration
+# instalar dependencias (con Bun)
+bun install
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# crear el .env local a partir del ejemplo
+cp .env.example .env
+# editar .env y poner tu VITE_TMDB_API_KEY
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+# correr en desarrollo
+bun dev
+# abrir http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Scripts útiles (package.json)
+- `bun dev` — arranca Vite en modo desarrollo  
+- `bun build` — build de producción (Vite)  
+- `bun preview` — preview del build  
+- `bun test` ��� ejecutar tests con Vitest  
+- `bun run lint` — ejecutar ESLint  
+- `bun run lint:fix` — ESLint -> --fix  
+- `bun run format` — aplicar Prettier
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+Variables de entorno (ejemplo)
+- `.env.example` incluye:
 ```
+VITE_TMDB_API_KEY=
+VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
+```
+En tu código usa: `import.meta.env.VITE_TMDB_API_KEY`
+
+Tailwind
+- Tailwind v3 está configurado en este proyecto. El CSS base está en `src/index.css` con:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+- Si migras a Tailwind v4 en el futuro, hacelo en una branch separada.
+
+Buenas prácticas del repo
+- No subir claves: usa `.env` local + `.env.example` comiteado.
+- Mantener `bun.lock` comiteado para reproducibilidad.
+- Branch naming: `feature/<short-desc>`; commits con Conventional Commits.
+- Añadir tests mínimos para la lógica no trivial.
+
+Contribuir
+1. Crea una branch: `git checkout -b feature/mi-cambio`
+2. Hacé cambios, lintea y formatea: `bun run lint:fix && bun run format`
+3. Commit claro: `git commit -m "feat(search): add useSearchMovies hook"`
+4. Abrí un PR y describí los cambios.
+
+Recursos
+- Documentación Vite: https://vitejs.dev  
+- Tailwind CSS: https://tailwindcss.com  
+- TMDB API: https://developers.themoviedb.org
+
+Licencia
+Este repositorio usa la licencia MIT — ver archivo `LICENSE`.
+
+Contacto
+- Autor: ezefernandezyf
