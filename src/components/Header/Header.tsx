@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default function Header(): React.JSX.Element {
   const [query, setQuery] = useState('');
@@ -6,16 +7,14 @@ export default function Header(): React.JSX.Element {
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-  
+
     console.log('Buscar:', query);
-   
   }
 
   return (
     <header className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-        
           <div className="flex items-center">
             <a
               href="/"
@@ -26,7 +25,6 @@ export default function Header(): React.JSX.Element {
             </a>
           </div>
 
-        
           <div className="hidden md:flex md:items-center md:space-x-6">
             <nav aria-label="Main navigation" className="flex items-center space-x-4">
               <a
@@ -71,12 +69,12 @@ export default function Header(): React.JSX.Element {
                 type="submit"
                 className="ml-2 px-3 py-2 bg-sky-600 text-white rounded-md text-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
               >
-                Buscar
+                <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+                <span className="sr-only">Buscar</span>
               </button>
             </form>
           </div>
 
-        
           <div className="md:hidden flex items-center">
             <button
               aria-controls="mobile-menu"
@@ -85,36 +83,16 @@ export default function Header(): React.JSX.Element {
               className="inline-flex items-center justify-center p-2 rounded-md text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500"
             >
               <span className="sr-only">Abrir menú principal</span>
-           
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                {open ? (
-                  <path
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              {open ? (
+                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      
       <div id="mobile-menu" className={`md:hidden ${open ? 'block' : 'hidden'} border-t`}>
         <div className="px-4 pt-2 pb-4 space-y-2">
           <a

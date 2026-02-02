@@ -16,6 +16,7 @@
     "tailwind:build": "tailwindcss -i ./src/index.css -o ./src/tailwind-output.css --minify"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "axios": "^1.13.4",
     "clsx": "^2.1.1",
     "react": "^19.2.0",
