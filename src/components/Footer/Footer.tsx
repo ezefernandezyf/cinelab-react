@@ -1,9 +1,16 @@
-export default function Footer() {
-    return (
-          <footer className="border-t bg-white mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-sm text-slate-500">
-          © {new Date().getFullYear()} CineLab
-        </div>
-      </footer>
-    )
+import React from "react";
+
+export default function Footer(): React.JSX.Element {
+  return (
+    <footer className="border-t bg-white/90 dark:bg-slate-900/90">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-sm text-slate-600 dark:text-slate-400 flex items-center justify-between">
+        <div>© {new Date().getFullYear()} CineLab</div>
+        <nav aria-label="Footer" className="space-x-4">
+          <a href="/about" className="hover:underline">About</a>
+          <a href="/privacy" className="hover:underline">Privacy</a>
+          <a href="https://github.com/ezefernandezyf/cinelab-react" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
+        </nav>
+      </div>
+    </footer>
+  );
 }
