@@ -1,10 +1,8 @@
-import Layout from "./components/Layout/Layout";
+import { AppRouter } from "../AppRouter";
 
-function App() {
+function App(): React.JSX.Element {
   return (
-    <Layout>
-      a
-    </Layout>
+    <AppRouter />
   );
 }
 
