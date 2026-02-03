@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Header(): React.JSX.Element {
   const [query, setQuery] = useState('');
@@ -16,35 +17,35 @@ export default function Header(): React.JSX.Element {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <a
-              href="/"
+            <Link
+              to="/"
               aria-label="CineLab — inicio"
               className="text-xl font-semibold text-slate-900 dark:text-sky-200 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
             >
               CineLab
-            </a>
+            </Link>
           </div>
 
           <div className="hidden md:flex md:items-center md:space-x-6">
             <nav aria-label="Main navigation" className="flex items-center space-x-4">
-              <a
-                href="/"
+              <NavLink
+                to="/home"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
               >
                 Inicio
-              </a>
-              <a
-                href="/search"
+              </NavLink>
+              <NavLink
+                to="/search"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
               >
                 Buscar
-              </a>
-              <a
-                href="/favorites"
+              </NavLink>
+              <NavLink
+                to="/favorites"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
               >
                 Favoritos
-              </a>
+              </NavLink>
             </nav>
 
             <form
@@ -95,24 +96,24 @@ export default function Header(): React.JSX.Element {
 
       <div id="mobile-menu" className={`md:hidden ${open ? 'block' : 'hidden'} border-t`}>
         <div className="px-4 pt-2 pb-4 space-y-2">
-          <a
-            href="/"
+          <NavLink
+            to="/home"
             className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             Inicio
-          </a>
-          <a
-            href="/search"
+          </NavLink>
+          <NavLink
+            to="/search"
             className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             Buscar
-          </a>
-          <a
-            href="/favorites"
+          </NavLink>
+          <NavLink
+            to="/favorites"
             className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             Favoritos
-          </a>
+          </NavLink>
 
           <form
             role="search"
