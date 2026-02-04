@@ -1,3 +1,5 @@
+import type { Genre } from "./genre.model";
+
 export interface MovieSummary {
     id: number;
     title: string;
@@ -8,7 +10,7 @@ export interface MovieSummary {
 
 export interface MovieDetails extends MovieSummary {
     overview: string;
-    genres: { id: number; name: string }[];
+    genres: Genre[];
     runtime: number;
 }
 
