@@ -3,14 +3,18 @@ import { loadAbort } from '../utilities/loadAbort.utility';
 
 type Fetcher<T> = (signal?: AbortSignal) => Promise<T>;
 
-type UseApiOptions = {
+type UseApiOptions<T> = {
   immediate?: boolean;
   deps?: any[];
-  initialData?: any;
+  initialData?: T | null;
 };
 
-export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions = {}) {
-  const { immediate = true, deps = [], initialData = null } = options;
+export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T> = {}) {
+  const {
+    immediate = true,
+    deps = [],
+    initialData = null,
+  } = options;
 
   const [data, setData] = useState<T | null>(initialData);
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,7 +75,6 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions = 
         abortControllerRef.current.abort();
       }
     };
-    
   }, deps);
 
   return { data, loading, error, refetch };
