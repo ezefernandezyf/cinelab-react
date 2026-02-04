@@ -36,7 +36,7 @@ const setupInterceptors = () => {
       if (import.meta.env.DEV) {
         console.debug('Response from:', response.config.url, { status: response.status });
       }
-      return response.data;
+      return response;
     },
     (error) => {
       if (import.meta.env.DEV) {
@@ -59,3 +59,11 @@ export const initAxios = () => {
   setupInterceptors();
   return axiosInstance;
 };
+
+export async function apiGet<T = any>(url: string, config?: Record<string, any>): Promise<T> {
+  if (!axiosInstance) {
+    initAxios();
+  }
+  const res = await axiosInstance.get<T>(url, config);
+  return res.data;
+}
