@@ -3,9 +3,10 @@ import type { Genre } from "./genre.model";
 export interface MovieSummary {
     id: number;
     title: string;
+    year: number;
     poster_path: string | null;
-    release_date: string;
-    vote_average: number;
+    vote_average: number | null;
+    release_date: string | null;
 }
 
 export interface MovieDetails extends MovieSummary {
