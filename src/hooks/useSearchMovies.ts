@@ -6,6 +6,7 @@ import type { MovieSummary, PagedResponse } from '../models';
 type UseSearchMoviesResult = {
   query: string;
   setQuery: (q: string) => void;
+  searchTerm: string;
   data: PagedResponse<MovieSummary> | null;
   loading: boolean;
   error: unknown | null;
@@ -18,7 +19,7 @@ export default function useSearchMovies(initialQuery = ''): UseSearchMoviesResul
   const [query, setQuery] = useState<string>(initialQuery);
   const [page, setPage] = useState<number>(1);
 
-  const [debouncedQuery, setDebouncedQuery] = useState(query);
+  const [debouncedQuery, setDebouncedQuery] = useState<string>(initialQuery);
   useEffect(() => {
     const id = setTimeout(() => setDebouncedQuery(query), 400);
     return () => clearTimeout(id);
@@ -44,9 +45,19 @@ export default function useSearchMovies(initialQuery = ''): UseSearchMoviesResul
 
   const { data, loading, error, refetch } = useApi<PagedResponse<MovieSummary>>(fetcher, {
     immediate: Boolean(query),
-    deps: [query, page],
+    deps: [debouncedQuery, page],
     initialData: initialPaged,
   });
 
-  return { query, setQuery, data, loading, error, page, setPage, refetch };
+  return {
+    query,
+    setQuery,
+    searchTerm: debouncedQuery,
+    data,
+    loading,
+    error,
+    page,
+    setPage,
+    refetch,
+  };
 }
