@@ -8,7 +8,6 @@ describe('MovieCard', () => {
   const movie = {
     id: 1,
     title: 'Inception',
-    year: 2010,
     poster_path: '/poster.jpg',
     vote_average: 8.8,
     release_date: '2010-07-16',
