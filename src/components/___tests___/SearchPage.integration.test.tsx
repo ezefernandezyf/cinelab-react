@@ -1,60 +1,107 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, vi, beforeEach, expect } from 'vitest';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { vi } from 'vitest';
 
-
-import * as movieService from '../../services/movie.service'; 
-import SearchPage from '../../pages/SearchPage/SearchPage'; 
-const sampleResponse = {
-  page: 1,
-  total_pages: 1,
-  total_results: 1,
-  results: [
-    {
-      id: 1,
-      title: 'The Matrix',
-      poster_path: null,
-      release_date: '1999-03-31',
-      vote_average: 8.2,
-    },
-  ],
-};
-
-describe('SearchPage integration', () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
+describe('SearchPage integration - pagination & deep-link', () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
-  it('loads results from query param and displays list', async () => {
+  it('sincroniza la página inicial desde el query param (deep-link) llamando setPage', async () => {
+    const setPageMock = vi.fn();
 
-    vi.spyOn(movieService, 'searchMovies').mockResolvedValue(sampleResponse as any);
+    vi.doMock('../../hooks/useSearchMovies', async () => {
+      return {
+        default: (q: string) => {
+          return {
+            query: q,
+            setQuery: vi.fn(),
+            searchTerm: q,
+            data: { page: 1, total_pages: 5, total_results: 0, results: [] },
+            loading: false,
+            error: null,
+            page: 1,
+            setPage: setPageMock,
+            refetch: vi.fn(),
+          };
+        },
+      };
+    });
+
+    const { default: SearchPage } = await import('../../pages/SearchPage/SearchPage');
 
     render(
-      <MemoryRouter initialEntries={['/search?q=matrix']}>
+      <MemoryRouter initialEntries={['/search?q=batman&page=3']}>
         <Routes>
           <Route path="/search" element={<SearchPage />} />
         </Routes>
       </MemoryRouter>
     );
 
-
-    await waitFor(() => expect(screen.getByText('The Matrix')).toBeInTheDocument());
-    expect(movieService.searchMovies).toHaveBeenCalledWith('matrix', 1, expect.anything());
+    await waitFor(() => {
+      expect(setPageMock).toHaveBeenCalledWith(3);
+    });
   });
 
-  it('does not render results when query param is empty', async () => {
-    vi.spyOn(movieService, 'searchMovies').mockResolvedValue(sampleResponse as any);
+  it('al clickear Prev y Next llama a setPage con los valores correctos', async () => {
+    const setPageMock = vi.fn();
+
+   vi.doMock('../../hooks/useSearchMovies', async () => {
+      return {
+        default: (q: string) => {
+          return {
+            query: q,
+            setQuery: vi.fn(),
+            searchTerm: q,
+            data: {
+              page: 2,
+              total_pages: 3,
+              total_results: 1,
+              results: [
+                {
+                  id: 1,
+                  title: 'Inception',
+                  poster_path: '/poster.jpg',
+                  vote_average: 8.8,
+                  release_date: '2010-07-16',
+                },
+              ],
+            },
+            loading: false,
+            error: null,
+            page: 2,
+            setPage: setPageMock,
+            refetch: vi.fn(),
+          };
+        },
+      };
+    });
+
+    const { default: SearchPage } = await import('../../pages/SearchPage/SearchPage');
 
     render(
-      <MemoryRouter initialEntries={['/search']}>
+      <MemoryRouter initialEntries={['/search?q=batman']}>
         <Routes>
           <Route path="/search" element={<SearchPage />} />
         </Routes>
       </MemoryRouter>
     );
 
-    expect(screen.queryByText('The Matrix')).not.toBeInTheDocument();
+    const user = userEvent.setup();
 
-    expect(movieService.searchMovies).not.toHaveBeenCalled();
+    const prevBtn = await screen.findByRole('button', { name: /Previous page/i });
+    const nextBtn = await screen.findByRole('button', { name: /Next page/i });
+
+    expect(prevBtn).not.toBeDisabled();
+    expect(nextBtn).not.toBeDisabled();
+
+    await user.click(prevBtn);
+    expect(setPageMock).toHaveBeenLastCalledWith(1);
+
+    await user.click(nextBtn);
+    expect(setPageMock).toHaveBeenLastCalledWith(3);
   });
 });

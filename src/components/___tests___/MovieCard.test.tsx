@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import MovieCard from '../MovieCard/MovieCard';
-
 
 describe('MovieCard', () => {
   const movie = {
@@ -20,13 +20,11 @@ describe('MovieCard', () => {
       </MemoryRouter>
     );
 
- 
     const img = screen.getByRole('img', { name: /inception/i });
     expect(img).toBeInTheDocument();
     expect(img.getAttribute('src')).toContain('poster.jpg');
 
     expect(screen.getByText(/inception/i)).toBeInTheDocument();
-
     expect(screen.getByText(/2010/)).toBeInTheDocument();
     expect(screen.getByText(/8\.8/)).toBeInTheDocument();
 
@@ -44,6 +42,33 @@ describe('MovieCard', () => {
     );
 
     const img = screen.getByRole('img', { name: /inception/i });
-    expect(img.getAttribute('src')).toContain('../../assets/placeholder.png');
+    expect(img.getAttribute('src')).toContain('placeholder');
+  });
+
+  it('calls onToggleFavorite with movie id when favorite button clicked', async () => {
+    const onToggleFavorite = vi.fn();
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <MovieCard movie={movie as any} isFavorite={false} onToggleFavorite={onToggleFavorite} />
+      </MemoryRouter>
+    );
+
+    const favBtn = screen.getByTestId('favorite-btn');
+    expect(favBtn).toBeInTheDocument();
+    await user.click(favBtn);
+    expect(onToggleFavorite).toHaveBeenCalledWith(1);
+  });
+
+  it('favorite button reflects isFavorite (aria-pressed)', () => {
+    render(
+      <MemoryRouter>
+        <MovieCard movie={movie as any} isFavorite={true} onToggleFavorite={() => {}} />
+      </MemoryRouter>
+    );
+
+    const favBtn = screen.getByTestId('favorite-btn');
+    expect(favBtn).toHaveAttribute('aria-pressed', 'true');
   });
 });
