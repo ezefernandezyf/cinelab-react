@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('../MovieCard/MovieCard.tsx', () => {
@@ -10,7 +10,7 @@ vi.mock('../MovieCard/MovieCard.tsx', () => {
   };
 });
 
-import MovieList from '../MovieList/MovieList.tsx';
+import { MovieList } from '../index';
 
 const sampleMovie = {
   id: 1,

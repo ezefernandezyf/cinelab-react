@@ -4,11 +4,11 @@ import type { PagedResponse, MovieSummary } from '../../models/movie.model';
 type Props = {
   data?: PagedResponse<MovieSummary> | null;
   loading?: boolean;
-  error?: string | null;
+  error?: string | null; 
   onPageChange?: (page: number) => void;
 };
 
-export default function MovieList({ data, loading, error, onPageChange }: Props) {
+export const MovieList = ({ data, loading, error, onPageChange }: Props) => {
   const page = data?.page ?? 1;
   const totalPages = data?.total_pages ?? 1;
   const totalResults = data?.total_results ?? 0;
