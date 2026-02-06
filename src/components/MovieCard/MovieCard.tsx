@@ -20,7 +20,7 @@ export default function MovieCard({
     ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
     : placeholder;
 
-  const handleToggleFav = (e: React.MouseEvent) => {
+  const handleToggleFav = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onToggleFavorite?.(movie.id);
   };
@@ -39,7 +39,7 @@ export default function MovieCard({
       <Link to={`/movie/${movie.id}`} className="flex-shrink-0" onClick={handleView}>
         <img
           src={posterUrl}
-          alt={`Poster de ${movie.title}`}
+          alt={movie.title}
           className="w-40 md:w-48 h-auto rounded-md object-cover"
           loading="lazy"
           width={192}
@@ -50,7 +50,10 @@ export default function MovieCard({
 
       <div className="flex flex-col justify-between">
         <div>
-          <h3 className="text-base md:text-lg font-semibold leading-tight text-slate-900 dark:text-slate-100">
+          <h3
+            data-testid="movie-title"
+            className="text-base md:text-lg font-semibold leading-tight text-slate-900 dark:text-slate-100"
+          >
             {movie.title}
           </h3>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -59,7 +62,7 @@ export default function MovieCard({
           </p>
         </div>
 
-        <div className="mt-3 md:mt-0">
+        <div className="mt-3 md:mt-0 flex gap-3 items-center">
           <Link
             to={`/movie/${movie.id}`}
             className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
