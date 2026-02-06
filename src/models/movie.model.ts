@@ -4,8 +4,8 @@ export interface MovieSummary {
     id: number;
     title: string;
     poster_path: string | null;
-    release_date: string;
-    vote_average: number;
+    vote_average: number | null;
+    release_date: string | null;
 }
 
 export interface MovieDetails extends MovieSummary {
