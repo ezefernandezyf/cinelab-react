@@ -26,6 +26,7 @@ export default function MovieCard({
   };
 
   const handleView = (e: React.MouseEvent) => {
+    e.preventDefault();
     onViewDetail?.(movie.id);
   };
 
