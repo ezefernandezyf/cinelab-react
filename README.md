@@ -4,8 +4,8 @@ CineLab es una aplicación para buscar y explorar películas usando la API de TM
 Construida con React, Vite, TypeScript y Tailwind CSS — pensada como proyecto de portfolio para demostrar buenas prácticas en consumo de APIs, testing y hooks personalizados.
 
 Live demo
-- Demo (producción): https://cinelab-movies.vercel.app/home
-- Código (GitHub): https://github.com/ezefernandezyf/cinelab-react
+[- Demo (producción) ](https://cinelab-movies.vercel.app/)
+[- Código (GitHub) https://github.com/ezefernandezyf/cinelab-react](https://github.com/ezefernandezyf/cinelab-react)
 
 Estado
 - Estado: en desarrollo
