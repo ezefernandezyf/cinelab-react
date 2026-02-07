@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useFavorites } from '../useFavorites';
+import  useFavorites from '../useFavorites';
 
 
 function TestComponent() {

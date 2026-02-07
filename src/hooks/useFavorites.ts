@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'cinelab:favorites';
 
-export const useFavorites = () => {
+export default function useFavorites () {
   const [favorites, setFavorites] = useState<number[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);

@@ -1,32 +1,47 @@
 import MovieCard from '../MovieCard/MovieCard';
 import type { PagedResponse, MovieSummary } from '../../models/movie.model';
+import  useFavorites  from '../../hooks/useFavorites';
 
 type Props = {
+  movies?: MovieSummary[];
   data?: PagedResponse<MovieSummary> | null;
   loading?: boolean;
-  error?: string | null; 
+  error?: string | null;
   onPageChange?: (page: number) => void;
 };
 
-export const MovieList = ({ data, loading, error, onPageChange }: Props) => {
+export const MovieList = ({ data, loading, error, onPageChange, movies }: Props) => {
+  const { isFavorite, toggleFavorite } = useFavorites();
   const page = data?.page ?? 1;
   const totalPages = data?.total_pages ?? 1;
   const totalResults = data?.total_results ?? 0;
-  const hasResults = Boolean(data && data.results.length > 0);
+
+  const list: MovieSummary[] = movies ?? data?.results ?? [];
 
   if (loading) return <div role="status">Cargando...</div>;
   if (error) return <div role="alert">{error}</div>;
-  if (!loading && !hasResults) return <div>No hay resultados</div>;
+
+  if (!list || list.length === 0) {
+    return <p>No hay resultados.</p>;
+  }
 
   return (
     <section>
       <span className="sr-only" aria-live="polite">
         {data ? `${totalResults} resultados — página ${page} de ${totalPages}` : ''}
       </span>
-      <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" data-testid="movie-list">
-        {data?.results.map((movie) => (
+      <ul
+        role="list"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+        data-testid="movie-list"
+      >
+        {list.map((movie) => (
           <li role="listitem" key={movie.id} data-testid="movie-item">
-            <MovieCard movie={movie} />
+            <MovieCard
+              movie={movie}
+              isFavorite={isFavorite(movie.id)}
+              onToggleFavorite={() => toggleFavorite(movie.id)}
+            />
           </li>
         ))}
       </ul>
@@ -61,4 +76,4 @@ export const MovieList = ({ data, loading, error, onPageChange }: Props) => {
       </div>
     </section>
   );
-}
+};
