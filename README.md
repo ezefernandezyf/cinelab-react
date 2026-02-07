@@ -5,6 +5,7 @@ Construida con React, Vite, TypeScript y Tailwind CSS — pensada como proyecto 
 
 Live demo
 [- Demo (producción) ](https://cinelab-movies.vercel.app/)
+
 [- Código (GitHub) https://github.com/ezefernandezyf/cinelab-react](https://github.com/ezefernandezyf/cinelab-react)
 
 Estado
