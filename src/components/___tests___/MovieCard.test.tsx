@@ -42,7 +42,7 @@ describe('MovieCard', () => {
     );
 
     const img = screen.getByRole('img', { name: /inception/i });
-    expect(img.getAttribute('src')).toContain('placeholder');
+    expect(img.getAttribute('src')).toMatch(/placeholder/i);
   });
 
   it('calls onToggleFavorite with movie id when favorite button clicked', async () => {
