@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { MovieSummary } from '../models';
 import { getMovie } from '../services';
 import useApi from './useApi';
