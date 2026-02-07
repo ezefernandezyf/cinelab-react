@@ -1,89 +1,118 @@
 # CineLab (React + Vite + TypeScript)
 
 CineLab es una aplicación para buscar y explorar películas usando la API de TMDB.  
-Esta versión está construida con React, Vite, TypeScript y Tailwind CSS v3 — ideal como proyecto para practicar frontend con consumo de APIs y buenas prácticas.
+Construida con React, Vite, TypeScript y Tailwind CSS — pensada como proyecto de portfolio para demostrar buenas prácticas en consumo de APIs, testing y hooks personalizados.
+
+Live demo
+- Demo (producción): https://cinelab-movies.vercel.app/home
+- Código (GitHub): https://github.com/ezefernandezyf/cinelab-react
 
 Estado
 - Estado: en desarrollo
-- Objetivo: proyecto para aprender React / hooks / testing y para tener un proyecto deployable en portfolio.
+- Objetivo: proyecto para aprender React/hooks/testing y tener una app deployable para portfolio.
+- Nota: la funcionalidad de "Favoritos" está implementada (persistencia y página /favorites). UX adicional (toasts/animaciones/ajustes de diseño) se completará en próximos sprints.
 
-Stack principal
-- React + Vite + TypeScript
-- Tailwind CSS v3
-- Axios (HTTP client)
-- react-router-dom
-- react-hook-form + Zod (formularios y validación)
-- Vitest + Testing Library (tests)
-- ESLint + Prettier (lint & format)
-- Bun (gestor de paquetes / runtime) — comandos mostrados asumen Bun
+Características principales
+- Búsqueda de películas con debounce y paginación.
+- Consumo centralizado de la API de TMDB (axios + interceptors).
+- Favoritos con persistencia en localStorage y página dedicada.
+- Componentes reutilizables y testeables (MovieCard, MovieList).
+- Tests unitarios e integración con Vitest + React Testing Library.
+- Buenas prácticas: Prettier, ESLint, Conventional Commits.
 
-Requisitos
-- Bun instalado (recomendado) o Node.js + npm si lo prefieres
-- Cuenta en The Movie Database (TMDB) para obtener VITE_TMDB_API_KEY
+Stack tecnológico
+- Frontend: React, Vite, TypeScript, Tailwind CSS
+- HTTP: axios (initAxios + apiGet)
+- Routing: react-router-dom
+- Forms & validation: react-hook-form + Zod (cuando aplica)
+- Testing: Vitest + React Testing Library
+- Runtime / package manager: Bun (se puede usar npm/yarn en Vercel)
+- Deploy: Vercel (recomendado)
 
-Instalación y setup (rápido)
+Demo / Deploy
+- Deploy recomendado: Vercel (protegé tu API key en Settings > Environment Variables).
+- Añadí en Vercel las variables:
+  - VITE_TMDB_API_KEY
+  - VITE_TMDB_BASE_URL (opcional, por defecto https://api.themoviedb.org/3)
+- Archivo para SPA routing: `vercel.json` (ya incluido) hace rewrite a index.html para rutas del cliente.
+
+Instalación y desarrollo local
+Recomendado: Bun (pero funciona con npm también).
+
 ```bash
-# clonar (si aún no lo hiciste)
-git clone git@github.com:TU_USUARIO/TU_REPO.git
-cd TU_REPO
+# clonar
+git clone git@github.com:ezefernandezyf/cinelab-react.git
+cd cinelab-react
 
-# instalar dependencias (con Bun)
+# instalar dependencias (Bun)
 bun install
+# o con npm
+# npm ci
 
-# crear el .env local a partir del ejemplo
+# copiar variables de entorno
 cp .env.example .env
-# editar .env y poner tu VITE_TMDB_API_KEY
+# editar .env y poner VITE_TMDB_API_KEY
 
-# correr en desarrollo
+# desarrollo
 bun dev
-# abrir http://localhost:5173
+# o
+# npm run dev
+
+# build de producción
+bun build
+# preview del build
+bun preview
 ```
 
-Scripts útiles (package.json)
-- `bun dev` — arranca Vite en modo desarrollo  
-- `bun build` — build de producción (Vite)  
-- `bun preview` — preview del build  
-- `bun test` ��� ejecutar tests con Vitest  
-- `bun run lint` — ejecutar ESLint  
-- `bun run lint:fix` — ESLint -> --fix  
-- `bun run format` — aplicar Prettier
+Scripts (package.json)
+- `dev` — arranca Vite en modo desarrollo  
+- `build` — build de producción (Vite)  
+- `preview` — preview del build  
+- `test` — ejecutar tests con Vitest  
+- `lint` / `lint:fix` — ESLint  
+- `format` — Prettier
 
-Variables de entorno (ejemplo)
+Variables de entorno
 - `.env.example` incluye:
 ```
 VITE_TMDB_API_KEY=
 VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
+VITE_APP_NAME=CineLab
 ```
-En tu código usa: `import.meta.env.VITE_TMDB_API_KEY`
+En código acceder con `import.meta.env.VITE_TMDB_API_KEY`.
 
-Tailwind
-- Tailwind v3 está configurado en este proyecto. El CSS base está en `src/index.css` con:
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-- Si migras a Tailwind v4 en el futuro, hacelo en una branch separada.
+Testing
+- Ejecutá la suite de tests:
+  - `bun test` o `npm run test`
+- Tests están aislados y mockean llamadas externas (evitan usar la API real en CI).
 
 Buenas prácticas del repo
-- No subir claves: usa `.env` local + `.env.example` comiteado.
-- Mantener `bun.lock` comiteado para reproducibilidad.
+- No subir claves: usar `.env` local + `.env.example` comiteado.
+- Mantener `bun.lock`/`package-lock.json` comiteado.
 - Branch naming: `feature/<short-desc>`; commits con Conventional Commits.
-- Añadir tests mínimos para la lógica no trivial.
+- Añadir tests para lógica no trivial y mantener PRs pequeños.
+
+Estructura destacada
+- `src/components` — componentes reutilizables (MovieCard, MovieList, etc.)
+- `src/hooks` — hooks personalizados (useSearchMovies, useFavorites, useApi)
+- `src/services` — cliente API (initAxios, apiGet) y `movie.service.ts`
+- `src/pages` — páginas (SearchPage, FavoritesPage, HomePage)
 
 Contribuir
-1. Crea una branch: `git checkout -b feature/mi-cambio`
-2. Hacé cambios, lintea y formatea: `bun run lint:fix && bun run format`
+1. Crear branch: `git checkout -b feature/mi-cambio`
+2. Formatear y lint: `bun run lint:fix && bun run format`
 3. Commit claro: `git commit -m "feat(search): add useSearchMovies hook"`
-4. Abrí un PR y describí los cambios.
+4. Abrir PR contra `main` y solicitar review.
 
 Recursos
-- Documentación Vite: https://vitejs.dev  
+- Vite: https://vitejs.dev  
 - Tailwind CSS: https://tailwindcss.com  
-- TMDB API: https://developers.themoviedb.org
+- TMDB API: https://developers.themoviedb.org  
+- Vitest: https://vitest.dev
 
 Licencia
 Este repositorio usa la licencia MIT — ver archivo `LICENSE`.
 
 Contacto
-- Autor: ezefernandezyf
+- Autor: Ezequiel Fernández — https://github.com/ezefernandezyf  
+- Email: ezefernandezyf@gmail.com
