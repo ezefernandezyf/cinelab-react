@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'cinelab:favorites';
 
-export default function useFavorites () {
+export default function useFavorites() {
   const [favorites, setFavorites] = useState<number[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -21,7 +21,7 @@ export default function useFavorites () {
   const isFavorite = useCallback((id: number) => favorites.includes(id), [favorites]);
 
   const addFavorite = useCallback((id: number) => {
-    setFavorites((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    setFavorites((prev) => (prev.includes(id) ? prev : [id, ...prev]));
   }, []);
 
   const removeFavorite = useCallback((id: number) => {
@@ -30,7 +30,7 @@ export default function useFavorites () {
 
   const toggleFavorite = useCallback((id: number) => {
     setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [id, ...prev]
     );
   }, []);
 
@@ -46,4 +46,4 @@ export default function useFavorites () {
     toggleFavorite,
     clearFavorites,
   } as const;
-};
+}
