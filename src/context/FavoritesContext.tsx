@@ -1,17 +1,12 @@
-import useFavorites from '../hooks/useFavorites';
-import { createContext, type ReactNode } from 'react';
+import { createContext } from 'react';
 
-type FavoritesContextType = ReturnType<typeof useFavorites> | null;
-
-export const FavoritesContext = createContext<FavoritesContextType>(null);
-
-interface FavoritesProviderProps {
-  children: ReactNode;
-}
-
-export const FavoritesProvider = ({ children }: FavoritesProviderProps) => {
-  const favApi = useFavorites();
-
-  return <FavoritesContext.Provider value={favApi}>{children}</FavoritesContext.Provider>;
+export type FavoritesApi = {
+  favorites: number[];
+  isFavorite: (id: number) => boolean;
+  addFavorite: (id: number) => void;
+  removeFavorite: (id: number) => void;
+  toggleFavorite: (id: number) => void;
+  clearFavorites: () => void;
 };
 
+export const FavoritesContext = createContext<FavoritesApi | null>(null);

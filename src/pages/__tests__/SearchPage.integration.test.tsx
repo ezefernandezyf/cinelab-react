@@ -31,7 +31,7 @@ describe('SearchPage integration - pagination & deep-link', () => {
       };
     });
 
-    const { default: SearchPage } = await import('../../pages/SearchPage/SearchPage');
+    const { default: SearchPage } = await import('../SearchPage/SearchPage');
 
     render(
       <MemoryRouter initialEntries={['/search?q=batman&page=3']}>
@@ -80,7 +80,7 @@ describe('SearchPage integration - pagination & deep-link', () => {
       };
     });
 
-    const { default: SearchPage } = await import('../../pages/SearchPage/SearchPage');
+    const { default: SearchPage } = await import('../SearchPage/SearchPage');
 
     render(
       <MemoryRouter initialEntries={['/search?q=batman']}>

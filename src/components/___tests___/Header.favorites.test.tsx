@@ -2,9 +2,9 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 import Header from '../Header/Header';
-import { FavoritesProvider } from '../../context/FavoritesContext';
 import { MemoryRouter } from 'react-router-dom';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
+import FavoritesProvider from '../../context/FavoritesProvider';
 
 function TestToggle() {
   const fav = useFavoritesContext();

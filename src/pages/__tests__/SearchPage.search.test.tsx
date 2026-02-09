@@ -30,7 +30,7 @@ describe('SearchPage integration - search with useSearchMovies', () => {
       };
     });
 
-    const { default: SearchPage } = await import('../../pages/SearchPage/SearchPage');
+    const { default: SearchPage } = await import('../SearchPage/SearchPage');
 
     render(
       <MemoryRouter initialEntries={['/search']}>
