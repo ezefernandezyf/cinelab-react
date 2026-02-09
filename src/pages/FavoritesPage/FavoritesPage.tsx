@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import useFavorites from '../../hooks/useFavorites';
 import useFavoriteMovies from '../../hooks/useFavoriteMovies';
