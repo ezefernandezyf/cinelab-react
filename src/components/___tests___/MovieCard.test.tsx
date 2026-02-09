@@ -3,9 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import MovieCard from '../MovieCard/MovieCard';
+import type { MovieSummary } from '../../models';
 
 describe('MovieCard', () => {
-  const movie = {
+  const movie: MovieSummary = {
     id: 1,
     title: 'Inception',
     poster_path: '/poster.jpg',
@@ -16,7 +17,7 @@ describe('MovieCard', () => {
   it('renders title, year, rating, image and details link', () => {
     render(
       <MemoryRouter>
-        <MovieCard movie={movie as any} />
+        <MovieCard movie={movie} />
       </MemoryRouter>
     );
 
@@ -37,7 +38,7 @@ describe('MovieCard', () => {
     const movieNoPoster = { ...movie, poster_path: null };
     render(
       <MemoryRouter>
-        <MovieCard movie={movieNoPoster as any} />
+        <MovieCard movie={movieNoPoster} />
       </MemoryRouter>
     );
 
@@ -51,7 +52,7 @@ describe('MovieCard', () => {
 
     render(
       <MemoryRouter>
-        <MovieCard movie={movie as any} isFavorite={false} onToggleFavorite={onToggleFavorite} />
+        <MovieCard movie={movie} isFavorite={false} onToggleFavorite={onToggleFavorite} />
       </MemoryRouter>
     );
 
@@ -64,7 +65,7 @@ describe('MovieCard', () => {
   it('favorite button reflects isFavorite (aria-pressed)', () => {
     render(
       <MemoryRouter>
-        <MovieCard movie={movie as any} isFavorite={true} onToggleFavorite={() => {}} />
+        <MovieCard movie={movie} isFavorite={true} onToggleFavorite={() => {}} />
       </MemoryRouter>
     );
 

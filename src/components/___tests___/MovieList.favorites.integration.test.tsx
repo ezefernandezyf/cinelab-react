@@ -3,15 +3,16 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import {MovieList} from '../MovieList/MovieList';
+import type { MovieSummary } from '../../models';
 
 const movies = [
   {
-    id: 10,
-    title: 'Test Movie',
-    poster_path: '/poster.jpg',
-    vote_average: 7.1,
-    release_date: '2020-01-01',
-  },
+   id: 10,
+    title: "prueba",
+    poster_path: "/prueba.jpg",
+    vote_average: 5.5,
+    release_date: "2024-01-01"
+  } as MovieSummary
 ];
 
 describe('MovieList favorites integration', () => {
@@ -24,7 +25,7 @@ describe('MovieList favorites integration', () => {
 
     render(
       <MemoryRouter initialEntries={['/']}>
-        <MovieList movies={movies as any} />
+        <MovieList movies={movies} />
       </MemoryRouter>
     );
 

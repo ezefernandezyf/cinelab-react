@@ -56,7 +56,7 @@ export default function SearchPage() {
     if (pageFromParams && pageFromParams !== page) {
       setPage(pageFromParams);
     }
-  }, [searchParams]); 
+  }, [searchParams, page, setPage]);
 
   const errorMessage = formatError(error);
 

@@ -1,21 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { searchMovies } from '../services/movie.service';
-import useApi from './useApi';
+import useApi, { type UseApiOptions } from './useApi';
 import type { MovieSummary, PagedResponse } from '../models';
 
-type UseSearchMoviesResult = {
-  query: string;
-  setQuery: (q: string) => void;
-  searchTerm: string;
-  data: PagedResponse<MovieSummary> | null;
-  loading: boolean;
-  error: unknown | null;
-  page: number;
-  setPage: (p: number) => void;
-  refetch: () => Promise<void>;
-};
-
-export default function useSearchMovies(initialQuery = ''): UseSearchMoviesResult {
+export default function useSearchMovies(initialQuery = '') {
   const [query, setQuery] = useState<string>(initialQuery);
   const [page, setPage] = useState<number>(1);
 
@@ -26,13 +14,13 @@ export default function useSearchMovies(initialQuery = ''): UseSearchMoviesResul
   }, [query]);
 
   useEffect(() => {
-    setPage(1);
-  }, [debouncedQuery]);
+    if (page === 1) return;
+    const id = window.setTimeout(() => setPage(1), 0);
+    return () => clearTimeout(id);
+  }, [debouncedQuery, page, setPage]);
 
   const fetcher = useCallback(
-    (signal?: AbortSignal) => {
-      return searchMovies(debouncedQuery, page, signal);
-    },
+    (signal?: AbortSignal) => searchMovies(debouncedQuery, page, signal),
     [debouncedQuery, page]
   );
 
@@ -43,11 +31,12 @@ export default function useSearchMovies(initialQuery = ''): UseSearchMoviesResul
     results: [],
   };
 
-  const { data, loading, error, refetch } = useApi<PagedResponse<MovieSummary>>(fetcher, {
-    immediate: Boolean(query),
-    deps: [debouncedQuery, page],
+  const options: UseApiOptions<PagedResponse<MovieSummary>> = {
+    immediate: Boolean(debouncedQuery),
     initialData: initialPaged,
-  });
+  };
+
+  const { data, loading, error, refetch } = useApi<PagedResponse<MovieSummary>>(fetcher, options);
 
   return {
     query,
