@@ -9,10 +9,8 @@ test("render logo and search input (at least one)", () => {
     </MemoryRouter>
   );
   
-  // Logo
   expect(screen.getByRole("link", { name: /cinelab/i })).toBeInTheDocument();
   
-  // Al menos un searchbox (puede haber desktop + mobile)
   const searchBoxes = screen.getAllByRole("searchbox", { name: /buscar películas/i });
   expect(searchBoxes.length).toBeGreaterThanOrEqual(1);
 });

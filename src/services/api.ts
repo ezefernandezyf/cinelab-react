@@ -1,5 +1,6 @@
 import axios, {
   type AxiosInstance,
+  type AxiosRequestConfig,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
@@ -60,7 +61,7 @@ export const initAxios = () => {
   return axiosInstance;
 };
 
-export async function apiGet<T = any>(url: string, config?: Record<string, any>): Promise<T> {
+export async function apiGet<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
   if (!axiosInstance) {
     initAxios();
   }

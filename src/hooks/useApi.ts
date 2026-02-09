@@ -1,18 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { loadAbort } from '../utilities/loadAbort.utility';
 
 type Fetcher<T> = (signal?: AbortSignal) => Promise<T>;
 
-type UseApiOptions<T> = {
+export type UseApiOptions<T> = {
   immediate?: boolean;
-  deps?: any[];
   initialData?: T | null;
 };
 
 export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T> = {}) {
   const {
     immediate = true,
-    deps = [],
     initialData = null,
   } = options;
 
@@ -23,12 +21,13 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
   const abortControllerRef = useRef<AbortController | null>(null);
   const requestIdRef = useRef<number>(0);
 
-  const isAbortError = (error: unknown) => {
-    const e: any = error;
-    return e?.name === 'AbortError' || e?.name === 'CanceledError' || e?.code === 'ERR_CANCELED';
+  const isAbortError = (err: unknown) => {
+    if (!err || typeof err !== 'object') return false;
+    const maybe = err as { name?: unknown; code?: unknown };
+    return maybe.name === 'AbortError' || maybe.name === 'CanceledError' || maybe.code === 'ERR_CANCELED';
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const requestId = ++requestIdRef.current;
 
     if (abortControllerRef.current && !abortControllerRef.current.signal.aborted) {
@@ -42,13 +41,13 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
     try {
       const result = await fetcher(abortControllerRef.current.signal);
       if (requestId !== requestIdRef.current) return;
-      if (!result) {
+      if (result === null || typeof result === 'undefined') {
         throw new Error('No data returned from API');
       }
       setData(result);
     } catch (err) {
       if (isAbortError(err)) {
-        console.debug('Fetch aborted');
+        console.debug('useApi fetch aborted');
       } else {
         setError(err as Error);
         if (import.meta.env.DEV) {
@@ -60,7 +59,7 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
         setLoading(false);
       }
     }
-  };
+  }, [fetcher]);
 
   const refetch = async () => {
     await fetchData();
@@ -75,7 +74,7 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
         abortControllerRef.current.abort();
       }
     };
-  }, deps);
+  }, [fetchData, immediate]);
 
   return { data, loading, error, refetch };
 }
