@@ -1,6 +1,6 @@
 import MovieCard from '../MovieCard/MovieCard';
 import type { PagedResponse, MovieSummary } from '../../models/movie.model';
-import  useFavorites  from '../../hooks/useFavorites';
+import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 
 type Props = {
   movies?: MovieSummary[];
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const MovieList = ({ data, loading, error, onPageChange, movies }: Props) => {
-  const { isFavorite, toggleFavorite } = useFavorites();
+  const { isFavorite, toggleFavorite } = useFavoritesContext();
   const page = data?.page ?? 1;
   const totalPages = data?.total_pages ?? 1;
   const totalResults = data?.total_results ?? 0;
