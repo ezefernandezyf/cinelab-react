@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Link, NavLink } from 'react-router-dom';
+import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 
 export default function Header(): React.JSX.Element {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
+
+  const favCtx = useFavoritesContext();
+  const favCount = favCtx.favorites?.length ?? 0;
 
   function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -31,20 +35,33 @@ export default function Header(): React.JSX.Element {
               <NavLink
                 to="/home"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                aria-label="home"
               >
                 Inicio
               </NavLink>
               <NavLink
                 to="/search"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                aria-label="search"
               >
                 Buscar
               </NavLink>
               <NavLink
                 to="/favorites"
                 className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                aria-label="favorites"
               >
                 Favoritos
+                <span
+                  aria-hidden={favCount === 0}
+                  className={`ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold rounded-full ${
+                    favCount > 0
+                      ? 'bg-amber-300 text-slate-900'
+                      : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                  }`}
+                >
+                  {favCount}
+                </span>
               </NavLink>
             </nav>
 

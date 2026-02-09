@@ -1,14 +1,14 @@
 import { useCallback, useMemo } from 'react';
 import MovieCard from '../../components/MovieCard/MovieCard';
-import useFavorites from '../../hooks/useFavorites';
 import useFavoriteMovies from '../../hooks/useFavoriteMovies';
 import ToastContainer from '../../components/Toast/Toast';
 import useToast from '../../hooks/useToast';
 import { Link } from 'react-router-dom';
 import type { MovieSummary } from '../../models/movie.model';
+import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 
 export default function FavoritesPage() {
-  const { favorites, isFavorite, toggleFavorite } = useFavorites();
+  const { favorites, isFavorite, toggleFavorite } = useFavoritesContext();
   const { movies, loading, error } = useFavoriteMovies(favorites);
   const { toasts, addToast, removeToast } = useToast();
 
