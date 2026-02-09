@@ -1,12 +1,21 @@
 import { Link, useParams } from 'react-router-dom';
 import useMovieDetail from '../../hooks/useMovieDetail';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
+import { useState, useRef } from 'react';
+import Modal from '../../components/Modal/Modal';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function MovieDetailPage(): React.JSX.Element {
   const { id } = useParams();
   const movieId = id ? Number(id) : undefined;
   const { details, credits, similar, loading, error, refetch } = useMovieDetail(movieId);
   const { isFavorite, toggleFavorite } = useFavoritesContext();
+  const [openTrailer, setOpenTrailer] = useState(false);
+
+  const trailerBtnRef = useRef<HTMLButtonElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  const trailerKey = undefined;
 
   if (loading) {
     return (
@@ -63,6 +72,14 @@ export default function MovieDetailPage(): React.JSX.Element {
             <span className="text-sm">
               {isFavorite(details.id) ? 'Favorito' : 'Agregar a favoritos'}
             </span>
+          </button>
+
+          <button
+            ref={trailerBtnRef}
+            onClick={() => setOpenTrailer(true)}
+            className="px-3 py-2 bg-sky-600 text-white rounded hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+          >
+            Ver trailer
           </button>
 
           <Link to="/" className="text-sm text-slate-600 dark:text-slate-300 hover:text-sky-600">
@@ -140,6 +157,42 @@ export default function MovieDetailPage(): React.JSX.Element {
           </section>
         </div>
       </section>
+
+      <Modal
+        open={openTrailer}
+        onClose={() => setOpenTrailer(false)}
+        title={`Trailer de ${details.title}`}
+        initialFocusRef={closeBtnRef}
+      >
+        <div className="relative">
+          <button
+            ref={closeBtnRef}
+            aria-label="Cerrar trailer"
+            onClick={() => setOpenTrailer(false)}
+            className="absolute right-3 top-3 p-2 rounded-full bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 shadow hover:bg-white dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 z-20"
+          >
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+          </button>
+
+          <div className="pt-[56.25%] relative">
+            {trailerKey ? (
+              <iframe
+                className="absolute inset-0 w-full h-full border-0"
+                src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0`}
+                title={`Trailer de ${details.title}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded">
+                <p className="text-sm text-slate-700 dark:text-slate-300">
+                  No hay trailer disponible
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </Modal>
     </main>
   );
 }
