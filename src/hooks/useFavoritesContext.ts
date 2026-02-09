@@ -4,8 +4,8 @@ import useFavorites from './useFavorites';
 
 export function useFavoritesContext() {
   const ctx = useContext(FavoritesContext);
-  if (ctx) {
-    return ctx;
-  }
-  return useFavorites();
+  const fallback = useFavorites();
+  return ctx ?? fallback;
 }
+
+export default useFavoritesContext;
