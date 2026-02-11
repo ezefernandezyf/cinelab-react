@@ -1,7 +1,6 @@
 import { render, screen, cleanup } from '@testing-library/react';
-import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
+import { describe, it, beforeEach, afterEach, expect, vi, type Mock } from 'vitest';
 
-// Mock useApi BEFORE importing the hook under test
 vi.mock('../useApi', () => ({
   default: vi.fn(),
 }));
@@ -42,7 +41,7 @@ describe('useMovieDetail hook', () => {
       },
     };
 
-    (useApi as unknown as any).mockImplementation(() => ({
+    (useApi as unknown as Mock).mockImplementation(() => ({
       data: mockData,
       loading: false,
       error: null,
@@ -56,7 +55,7 @@ describe('useMovieDetail hook', () => {
   });
 
   it('returns nullish values when useApi returns no data', () => {
-    (useApi as unknown as any).mockImplementation(() => ({
+    (useApi as unknown as Mock).mockImplementation(() => ({
       data: null,
       loading: false,
       error: null,

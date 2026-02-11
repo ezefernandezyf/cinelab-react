@@ -1,12 +1,11 @@
 import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
+import { describe, it, beforeEach, afterEach, expect, vi, type Mock } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
-let mockUseMovieDetail: any;
+const mockUseMovieDetail: Mock = vi.fn();
 
 vi.mock('../../hooks/useMovieDetail', () => {
-  mockUseMovieDetail = vi.fn();
   return {
     default: mockUseMovieDetail,
   };

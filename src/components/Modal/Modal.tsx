@@ -30,30 +30,32 @@ export const Modal = ({
   initialFocusRef,
   closeOnBackdrop = true,
 }: Props): React.JSX.Element | null => {
-  const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
+  const [containerEl] = useState<HTMLDivElement>(() => {
+    const el = document.createElement('div');
+    el.className = 'modal-portal';
+    return el;
+  });
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   const titleId = 'modal-title';
 
   useEffect(() => {
-    const el = document.createElement('div');
-    el.className = 'modal-portal';
     const mountNode = document.getElementById('modal-root') ?? document.body;
-    mountNode.appendChild(el);
-    setContainerEl(el);
+    mountNode.appendChild(containerEl);
 
     return () => {
-      if (el.parentNode) {
-        el.parentNode.removeChild(el);
+      if (containerEl.parentNode) {
+        containerEl.parentNode.removeChild(containerEl);
       }
-      setContainerEl(null);
     };
-  }, []);
+  }, [containerEl]);
 
   const getFocusableElements = (): HTMLElement[] => {
     if (!dialogRef.current) return [];
-    const nodes = Array.from(dialogRef.current.querySelectorAll(FOCUSABLE_SELECTORS)) as HTMLElement[];
+    const nodes = Array.from(
+      dialogRef.current.querySelectorAll(FOCUSABLE_SELECTORS)
+    ) as HTMLElement[];
 
     const visible = nodes.filter((el) => {
       if (!(el instanceof HTMLElement)) return false;
