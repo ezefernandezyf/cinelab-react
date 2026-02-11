@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
@@ -30,50 +30,42 @@ export const Modal = ({
   initialFocusRef,
   closeOnBackdrop = true,
 }: Props): React.JSX.Element | null => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
-  // NOTE: using a fixed id 'modal-title' so existing tests that query '#modal-title' remain valid.
-  // If you later need multiple modals simultaneously, consider generating unique ids and updating tests.
   const titleId = 'modal-title';
 
-  // Create portal container on mount and clean up on unmount
   useEffect(() => {
     const el = document.createElement('div');
     el.className = 'modal-portal';
     const mountNode = document.getElementById('modal-root') ?? document.body;
     mountNode.appendChild(el);
-    containerRef.current = el;
+    setContainerEl(el);
 
     return () => {
-      if (containerRef.current && containerRef.current.parentNode) {
-        containerRef.current.parentNode.removeChild(containerRef.current);
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
       }
-      containerRef.current = null;
+      setContainerEl(null);
     };
   }, []);
 
-  // Helper: get focusable elements inside the dialog and filter visible ones.
-  // IMPORTANT: in test env (jsdom) visibility checks may fail -> keep fallback to all nodes.
   const getFocusableElements = (): HTMLElement[] => {
     if (!dialogRef.current) return [];
     const nodes = Array.from(dialogRef.current.querySelectorAll(FOCUSABLE_SELECTORS)) as HTMLElement[];
 
     const visible = nodes.filter((el) => {
       if (!(el instanceof HTMLElement)) return false;
-      // Visible checks: offsetParent and client rects
       if (el.offsetParent === null) return false;
       if (el.getClientRects().length === 0) return false;
       if (el.getAttribute('aria-hidden') === 'true') return false;
       return true;
     });
 
-    // If the visible filter removed everything (common in jsdom), fall back to the original nodes.
     return visible.length > 0 ? visible : nodes;
   };
 
-  // Keyboard handling: Escape + Tab cycling
   useEffect(() => {
     if (!open) return;
 
@@ -87,7 +79,6 @@ export const Modal = ({
       if (e.key === 'Tab') {
         const focusables = getFocusableElements();
 
-        // No focusable elements: keep focus on the dialog
         if (focusables.length === 0) {
           e.preventDefault();
           dialogRef.current?.focus();
@@ -116,7 +107,6 @@ export const Modal = ({
     };
   }, [open, onClose]);
 
-  // Manage body scroll, initial focus and restore focus on close
   useEffect(() => {
     if (!open) return;
 
@@ -125,14 +115,11 @@ export const Modal = ({
 
     previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
 
-    // Prefer explicit initialFocusRef, otherwise focus the dialog container.
     const focusTarget = initialFocusRef?.current ?? dialogRef.current;
     focusTarget?.focus?.();
 
     return () => {
       document.body.style.overflow = prevOverFlow || '';
-
-      // Restore focus only if the element is still in the document
       if (
         previouslyFocusedRef.current &&
         typeof previouslyFocusedRef.current.focus === 'function' &&
@@ -141,26 +128,22 @@ export const Modal = ({
         previouslyFocusedRef.current.focus();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, initialFocusRef]);
 
-  if (!open || !containerRef.current) return null;
+  if (!open || !containerEl) return null;
 
   const portalContent = (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       onMouseDown={(e) => {
         if (!closeOnBackdrop) return;
-        // Close only if clicked the overlay itself (not children)
         if (e.target === e.currentTarget) {
           onClose();
         }
       }}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
 
-      {/* Dialog */}
       <div
         ref={dialogRef}
         role="dialog"
@@ -179,7 +162,7 @@ export const Modal = ({
     </div>
   );
 
-  return createPortal(portalContent, containerRef.current);
+  return createPortal(portalContent, containerEl);
 };
 
 export default Modal;

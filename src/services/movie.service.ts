@@ -1,4 +1,10 @@
-import type { CreditsResponse, MovieDetails, MovieSummary, PagedResponse } from '../models';
+import type {
+  CreditsResponse,
+  MovieDetails,
+  MovieSummary,
+  PagedResponse,
+  VideosResponse,
+} from '../models';
 import { apiGet } from './api';
 
 export async function searchMovies(
@@ -37,6 +43,13 @@ export async function getSimilar(
 ): Promise<PagedResponse<MovieSummary>> {
   return apiGet<PagedResponse<MovieSummary>>(`/movie/${id}/similar`, {
     params: { language: 'es-ES', page },
+    signal,
+  });
+}
+
+export async function getVideos(id: number, signal?: AbortSignal): Promise<VideosResponse> {
+  return apiGet<VideosResponse>(`/movie/${id}/videos`, {
+    params: { language: 'es-ES' },
     signal,
   });
 }
