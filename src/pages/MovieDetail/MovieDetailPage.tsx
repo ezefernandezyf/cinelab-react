@@ -1,12 +1,19 @@
 import { Link, useParams } from 'react-router-dom';
 import useMovieDetail from '../../hooks/useMovieDetail';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
+import { useState, useRef } from 'react';
+import TrailerModal from '../../components/Modal/TrailerModal';
 
 export default function MovieDetailPage(): React.JSX.Element {
   const { id } = useParams();
   const movieId = id ? Number(id) : undefined;
-  const { details, credits, similar, loading, error, refetch } = useMovieDetail(movieId);
+  const { details, credits, similar, loading, trailerKey, error, refetch } =
+    useMovieDetail(movieId);
   const { isFavorite, toggleFavorite } = useFavoritesContext();
+  const [openTrailer, setOpenTrailer] = useState(false);
+
+  const trailerBtnRef = useRef<HTMLButtonElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   if (loading) {
     return (
@@ -63,6 +70,22 @@ export default function MovieDetailPage(): React.JSX.Element {
             <span className="text-sm">
               {isFavorite(details.id) ? 'Favorito' : 'Agregar a favoritos'}
             </span>
+          </button>
+
+          <button
+            ref={trailerBtnRef}
+            onClick={() => {
+              if (trailerKey) setOpenTrailer(true);
+            }}
+            disabled={!trailerKey}
+            title={!trailerKey ? 'Trailer no disponible' : undefined}
+            className={`px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 ${
+              trailerKey
+                ? 'bg-sky-600 text-white hover:bg-sky-700'
+                : 'bg-slate-300 text-slate-600 cursor-not-allowed'
+            }`}
+          >
+            Ver trailer
           </button>
 
           <Link to="/" className="text-sm text-slate-600 dark:text-slate-300 hover:text-sky-600">
@@ -140,6 +163,14 @@ export default function MovieDetailPage(): React.JSX.Element {
           </section>
         </div>
       </section>
+
+      <TrailerModal
+        trailerKey={trailerKey}
+        open={openTrailer}
+        onClose={() => setOpenTrailer(false)}
+        title={details.title}
+        initialFocusRef={closeBtnRef}
+      />
     </main>
   );
 }
