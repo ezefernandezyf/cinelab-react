@@ -1,8 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
-import useMovieDetail from '../../hooks/useMovieDetail';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 import { useState, useRef } from 'react';
 import TrailerModal from '../../components/Modal/TrailerModal';
+import useMovieDetail from '../../hooks/useMovieDetail';
 
 export default function MovieDetailPage(): React.JSX.Element {
   const { id } = useParams();
