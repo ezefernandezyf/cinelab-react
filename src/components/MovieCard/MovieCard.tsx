@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import type { MovieSummary } from '../../models';
 import placeholder from '../../../public/placeholder.png';
 
@@ -6,15 +6,9 @@ type Props = {
   movie: MovieSummary;
   isFavorite?: boolean;
   onToggleFavorite?: (movieId: number) => void;
-  onViewDetail?: (movieId: number) => void;
 };
 
-export default function MovieCard({
-  movie,
-  isFavorite = false,
-  onToggleFavorite,
-  onViewDetail,
-}: Props) {
+export default function MovieCard({ movie, isFavorite = false, onToggleFavorite }: Props) {
   const year = movie.release_date ? new Date(movie.release_date).getFullYear() : '';
   const posterUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
@@ -25,10 +19,7 @@ export default function MovieCard({
     onToggleFavorite?.(movie.id);
   };
 
-  const handleView = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onViewDetail?.(movie.id);
-  };
+  const location = useLocation();
 
   return (
     <article
@@ -36,7 +27,7 @@ export default function MovieCard({
       className="flex flex-col md:flex-row gap-3 p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow md:items-center"
       aria-label={`Movie ${movie.title}`}
     >
-      <Link to={`/movie/${movie.id}`} className="flex-shrink-0" onClick={handleView}>
+      <Link to={`/movie/${movie.id}`} className="flex-shrink-0" state={{ from: location.pathname }}>
         <img
           src={posterUrl}
           alt={movie.title}
@@ -67,6 +58,7 @@ export default function MovieCard({
             to={`/movie/${movie.id}`}
             className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
             aria-label={`Ver detalles de ${movie.title}`}
+            state={{ from: location.pathname }}
           >
             Ver detalles
           </Link>
