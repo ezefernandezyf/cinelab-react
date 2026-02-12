@@ -27,3 +27,5 @@ build
 # Misc
 *.local
 *.log
+
+/coverage
