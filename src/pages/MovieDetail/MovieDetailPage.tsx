@@ -1,8 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 import { useState, useRef } from 'react';
 import TrailerModal from '../../components/Modal/TrailerModal';
 import useMovieDetail from '../../hooks/useMovieDetail';
+import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
+import useBack from '../../hooks/useBack';
 
 export default function MovieDetailPage(): React.JSX.Element {
   const { id } = useParams();
@@ -14,6 +16,32 @@ export default function MovieDetailPage(): React.JSX.Element {
 
   const trailerBtnRef = useRef<HTMLButtonElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  const location = useLocation();
+  type LocState = { from?: string; fromLabel?: string };
+  const from = (location.state as LocState | null)?.from;
+  const fromLabelState = (location.state as LocState | null)?.fromLabel;
+
+  function mapPathToLabel(path?: string) {
+    if (!path || path === '/') return 'Inicio';
+    if (path.startsWith('/favorites')) return 'Favoritos';
+    if (path.startsWith('/search')) return 'Buscar';
+    return 'Resultados';
+  }
+
+  const title = details?.title ?? 'Cargando…';
+  const inferredLabel = mapPathToLabel(from);
+  const secondLabel = fromLabelState ?? inferredLabel;
+  // temporal para debug — quítalo después
+console.log('location', location);
+console.log('from:', from, 'fromLabelState:', fromLabelState, 'inferredLabel:', inferredLabel);
+  const crumbs = [
+    { to: '/', label: 'Inicio' },
+    ...(from ? [{ to: from, label: secondLabel }] : []),
+    { label: title },
+  ];
+
+  const goBack = useBack('/');
 
   if (loading) {
     return (
@@ -50,6 +78,7 @@ export default function MovieDetailPage(): React.JSX.Element {
 
   return (
     <main className="max-w-6xl mx-auto p-6">
+      <Breadcrumbs items={crumbs} onBack={() => goBack(from)} />
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold">{details.title}</h1>
@@ -87,10 +116,6 @@ export default function MovieDetailPage(): React.JSX.Element {
           >
             Ver trailer
           </button>
-
-          <Link to="/" className="text-sm text-slate-600 dark:text-slate-300 hover:text-sky-600">
-            Volver
-          </Link>
         </div>
       </header>
 
