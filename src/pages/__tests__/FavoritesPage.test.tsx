@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
-
 vi.mock('../../hooks/useFavorites', () => {
   const favorites = [10];
   return {

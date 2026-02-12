@@ -2,17 +2,17 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import {MovieList} from '../MovieList/MovieList';
+import { MovieList } from '../MovieList/MovieList';
 import type { MovieSummary } from '../../models';
 
 const movies = [
   {
-   id: 10,
-    title: "prueba",
-    poster_path: "/prueba.jpg",
+    id: 10,
+    title: 'prueba',
+    poster_path: '/prueba.jpg',
     vote_average: 5.5,
-    release_date: "2024-01-01"
-  } as MovieSummary
+    release_date: '2024-01-01',
+  } as MovieSummary,
 ];
 
 describe('MovieList favorites integration', () => {

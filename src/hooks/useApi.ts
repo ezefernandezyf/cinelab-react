@@ -9,10 +9,7 @@ export type UseApiOptions<T> = {
 };
 
 export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T> = {}) {
-  const {
-    immediate = true,
-    initialData = null,
-  } = options;
+  const { immediate = true, initialData = null } = options;
 
   const [data, setData] = useState<T | null>(initialData);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +21,9 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
   const isAbortError = (err: unknown) => {
     if (!err || typeof err !== 'object') return false;
     const maybe = err as { name?: unknown; code?: unknown };
-    return maybe.name === 'AbortError' || maybe.name === 'CanceledError' || maybe.code === 'ERR_CANCELED';
+    return (
+      maybe.name === 'AbortError' || maybe.name === 'CanceledError' || maybe.code === 'ERR_CANCELED'
+    );
   };
 
   const fetchData = useCallback(async () => {

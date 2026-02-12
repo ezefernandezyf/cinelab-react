@@ -11,22 +11,13 @@ function TestToggle() {
 
   return (
     <div>
-      <button
-        data-testid="btn-add"
-        onClick={() => fav.addFavorite(42)}
-      >
+      <button data-testid="btn-add" onClick={() => fav.addFavorite(42)}>
         Add 42
       </button>
-      <button
-        data-testid="btn-toggle"
-        onClick={() => fav.toggleFavorite(42)}
-      >
+      <button data-testid="btn-toggle" onClick={() => fav.toggleFavorite(42)}>
         Toggle 42
       </button>
-      <button
-        data-testid="btn-clear"
-        onClick={() => fav.clearFavorites()}
-      >
+      <button data-testid="btn-clear" onClick={() => fav.clearFavorites()}>
         Clear
       </button>
     </div>

@@ -3,8 +3,15 @@ import { useCallback, useEffect, useState } from 'react';
 export default function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      const raw = typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null;
-      return raw ? (JSON.parse(raw) as T) : typeof initialValue === 'function' ? (initialValue as () => T)() : initialValue;
+      const raw =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem(key)
+          : null;
+      return raw
+        ? (JSON.parse(raw) as T)
+        : typeof initialValue === 'function'
+          ? (initialValue as () => T)()
+          : initialValue;
     } catch (e) {
       if (import.meta.env.DEV) {
         console.warn(`useLocalStorage: failed to parse key "${key}", using initialValue`, e);

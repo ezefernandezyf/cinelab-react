@@ -6,19 +6,28 @@ export default function useFavorites() {
 
   const isFavorite = useCallback((id: number) => favorites.includes(id), [favorites]);
 
-  const addFavorite = useCallback((id: number) => {
-    setFavorites((prev) => (prev.includes(id) ? prev : [id, ...prev]));
-  }, [setFavorites]);
+  const addFavorite = useCallback(
+    (id: number) => {
+      setFavorites((prev) => (prev.includes(id) ? prev : [id, ...prev]));
+    },
+    [setFavorites]
+  );
 
-  const removeFavorite = useCallback((id: number) => {
-    setFavorites((prev) => prev.filter((favId) => favId !== id));
-  }, [setFavorites]);
+  const removeFavorite = useCallback(
+    (id: number) => {
+      setFavorites((prev) => prev.filter((favId) => favId !== id));
+    },
+    [setFavorites]
+  );
 
-  const toggleFavorite = useCallback((id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [id, ...prev]
-    );
-  }, [setFavorites]);
+  const toggleFavorite = useCallback(
+    (id: number) => {
+      setFavorites((prev) =>
+        prev.includes(id) ? prev.filter((favId) => favId !== id) : [id, ...prev]
+      );
+    },
+    [setFavorites]
+  );
 
   const clearFavorites = useCallback(() => {
     setFavorites([]);

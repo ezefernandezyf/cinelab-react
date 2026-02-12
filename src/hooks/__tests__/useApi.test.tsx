@@ -62,7 +62,10 @@ describe('useApi hook', () => {
 
     const fetcher = vi.fn().mockResolvedValue(value) as FetcherMock<Payload>;
 
-    const TestComponent = makeTestComponent<Payload>(fetcher, { immediate: false, initialData: initial });
+    const TestComponent = makeTestComponent<Payload>(fetcher, {
+      immediate: false,
+      initialData: initial,
+    });
     render(<TestComponent />);
 
     expect(fetcher).not.toHaveBeenCalled();
@@ -124,18 +127,25 @@ describe('useApi hook', () => {
       .mockResolvedValueOnce(v1)
       .mockResolvedValueOnce(v2) as FetcherMock<V>;
 
-    const TestComponent = makeTestComponent<V>(fetcherMock, { immediate: false, initialData: null });
+    const TestComponent = makeTestComponent<V>(fetcherMock, {
+      immediate: false,
+      initialData: null,
+    });
     render(<TestComponent />);
 
     const user = userEvent.setup();
 
     await user.click(screen.getByTestId('refetch'));
     expect(fetcherMock).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(screen.getByTestId('data').textContent).toContain(JSON.stringify(v1)));
+    await waitFor(() =>
+      expect(screen.getByTestId('data').textContent).toContain(JSON.stringify(v1))
+    );
 
     await user.click(screen.getByTestId('refetch'));
     expect(fetcherMock).toHaveBeenCalledTimes(2);
-    await waitFor(() => expect(screen.getByTestId('data').textContent).toContain(JSON.stringify(v2)));
+    await waitFor(() =>
+      expect(screen.getByTestId('data').textContent).toContain(JSON.stringify(v2))
+    );
   });
 
   it('E - AbortSignal: aborted request does not set data; later successful request applies', async () => {
@@ -145,7 +155,8 @@ describe('useApi hook', () => {
       .fn()
       .mockImplementationOnce((signal?: AbortSignal) => {
         return new Promise<R>((resolve, reject) => {
-          if (signal?.aborted) return reject(Object.assign(new Error('Aborted'), { name: 'AbortError' }));
+          if (signal?.aborted)
+            return reject(Object.assign(new Error('Aborted'), { name: 'AbortError' }));
           const onAbort = () => reject(Object.assign(new Error('Aborted'), { name: 'AbortError' }));
           signal?.addEventListener('abort', onAbort);
           const id = setTimeout(() => {
@@ -167,7 +178,9 @@ describe('useApi hook', () => {
     await user.click(screen.getByTestId('refetch'));
     expect(fetcher).toHaveBeenCalledTimes(2);
 
-    await waitFor(() => expect(screen.getByTestId('data').textContent).toContain(JSON.stringify({ from: 'second' })));
+    await waitFor(() =>
+      expect(screen.getByTestId('data').textContent).toContain(JSON.stringify({ from: 'second' }))
+    );
     expect(screen.getByTestId('error').textContent).toBe('');
   });
 });

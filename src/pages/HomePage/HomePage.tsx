@@ -1,4 +1,4 @@
-export const HomePage = (): React.JSX.Element =>{
+export const HomePage = (): React.JSX.Element => {
   return (
     <section>
       <h1 className="text-2xl font-semibold">Home</h1>
@@ -12,4 +12,4 @@ export const HomePage = (): React.JSX.Element =>{
       </div>
     </section>
   );
-}
+};

@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { SearchBar } from '../SearchBar/SearchBar';
 
-
 describe('SearchBar', () => {
   it('shows validation error when submitting empty', async () => {
     const onSearch = vi.fn();

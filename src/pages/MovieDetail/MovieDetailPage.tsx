@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 import { useState, useRef } from 'react';
 import TrailerModal from '../../components/Modal/TrailerModal';
@@ -32,9 +32,6 @@ export default function MovieDetailPage(): React.JSX.Element {
   const title = details?.title ?? 'Cargando…';
   const inferredLabel = mapPathToLabel(from);
   const secondLabel = fromLabelState ?? inferredLabel;
-  // temporal para debug — quítalo después
-console.log('location', location);
-console.log('from:', from, 'fromLabelState:', fromLabelState, 'inferredLabel:', inferredLabel);
   const crumbs = [
     { to: '/', label: 'Inicio' },
     ...(from ? [{ to: from, label: secondLabel }] : []),

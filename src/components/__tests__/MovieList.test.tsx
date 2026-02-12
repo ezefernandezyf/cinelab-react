@@ -96,7 +96,6 @@ it('llama onPageChange al clickear Prev y Next en página intermedia', async () 
   expect(onPageChange).toHaveBeenLastCalledWith(3);
 });
 
-
 it('deshabilita Prev en primera página y Next en última página', () => {
   const onPageChange = vi.fn();
 

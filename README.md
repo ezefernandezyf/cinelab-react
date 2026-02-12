@@ -9,11 +9,13 @@ Live demo
 [- Código (GitHub) https://github.com/ezefernandezyf/cinelab-react](https://github.com/ezefernandezyf/cinelab-react)
 
 Estado
+
 - Estado: en desarrollo
 - Objetivo: proyecto para aprender React/hooks/testing y tener una app deployable para portfolio.
 - Nota: la funcionalidad de "Favoritos" está implementada (persistencia y página /favorites). UX adicional (toasts/animaciones/ajustes de diseño) se completará en próximos sprints.
 
 Características principales
+
 - Búsqueda de películas con debounce y paginación.
 - Consumo centralizado de la API de TMDB (axios + interceptors).
 - Favoritos con persistencia en localStorage y página dedicada.
@@ -22,6 +24,7 @@ Características principales
 - Buenas prácticas: Prettier, ESLint, Conventional Commits.
 
 Stack tecnológico
+
 - Frontend: React, Vite, TypeScript, Tailwind CSS
 - HTTP: axios (initAxios + apiGet)
 - Routing: react-router-dom
@@ -31,6 +34,7 @@ Stack tecnológico
 - Deploy: Vercel (recomendado)
 
 Demo / Deploy
+
 - Deploy recomendado: Vercel (protegé tu API key en Settings > Environment Variables).
 - Añadí en Vercel las variables:
   - VITE_TMDB_API_KEY
@@ -66,54 +70,64 @@ bun preview
 ```
 
 Scripts (package.json)
-- `dev` — arranca Vite en modo desarrollo  
-- `build` — build de producción (Vite)  
-- `preview` — preview del build  
-- `test` — ejecutar tests con Vitest  
-- `lint` / `lint:fix` — ESLint  
+
+- `dev` — arranca Vite en modo desarrollo
+- `build` — build de producción (Vite)
+- `preview` — preview del build
+- `test` — ejecutar tests con Vitest
+- `lint` / `lint:fix` — ESLint
 - `format` — Prettier
 
 Variables de entorno
+
 - `.env.example` incluye:
+
 ```
 VITE_TMDB_API_KEY=
 VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
 VITE_APP_NAME=CineLab
 ```
+
 En código acceder con `import.meta.env.VITE_TMDB_API_KEY`.
 
 Testing
+
 - Ejecutá la suite de tests:
   - `bun test` o `npm run test`
 - Tests están aislados y mockean llamadas externas (evitan usar la API real en CI).
 
 Buenas prácticas del repo
+
 - No subir claves: usar `.env` local + `.env.example` comiteado.
 - Mantener `bun.lock`/`package-lock.json` comiteado.
 - Branch naming: `feature/<short-desc>`; commits con Conventional Commits.
 - Añadir tests para lógica no trivial y mantener PRs pequeños.
 
 Estructura destacada
+
 - `src/components` — componentes reutilizables (MovieCard, MovieList, etc.)
 - `src/hooks` — hooks personalizados (useSearchMovies, useFavorites, useApi)
 - `src/services` — cliente API (initAxios, apiGet) y `movie.service.ts`
 - `src/pages` — páginas (SearchPage, FavoritesPage, HomePage)
 
 Contribuir
+
 1. Crear branch: `git checkout -b feature/mi-cambio`
 2. Formatear y lint: `bun run lint:fix && bun run format`
 3. Commit claro: `git commit -m "feat(search): add useSearchMovies hook"`
 4. Abrir PR contra `main` y solicitar review.
 
 Recursos
-- Vite: https://vitejs.dev  
-- Tailwind CSS: https://tailwindcss.com  
-- TMDB API: https://developers.themoviedb.org  
+
+- Vite: https://vitejs.dev
+- Tailwind CSS: https://tailwindcss.com
+- TMDB API: https://developers.themoviedb.org
 - Vitest: https://vitest.dev
 
 Licencia
 Este repositorio usa la licencia MIT — ver archivo `LICENSE`.
 
 Contacto
-- Autor: Ezequiel Fernández — https://github.com/ezefernandezyf  
+
+- Autor: Ezequiel Fernández — https://github.com/ezefernandezyf
 - Email: ezefernandezyf@gmail.com

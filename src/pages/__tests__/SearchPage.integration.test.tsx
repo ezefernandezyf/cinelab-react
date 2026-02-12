@@ -49,7 +49,7 @@ describe('SearchPage integration - pagination & deep-link', () => {
   it('al clickear Prev y Next llama a setPage con los valores correctos', async () => {
     const setPageMock = vi.fn();
 
-   vi.doMock('../../hooks/useSearchMovies', async () => {
+    vi.doMock('../../hooks/useSearchMovies', async () => {
       return {
         default: (q: string) => {
           return {

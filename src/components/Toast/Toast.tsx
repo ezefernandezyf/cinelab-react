@@ -54,7 +54,7 @@ function Toast({ item, onClose }: { item: ToastItem; onClose: (id: string) => vo
           </button>
         )}
 
-       <button
+        <button
           onClick={() => onClose(id)}
           aria-label="Cerrar"
           className="text-indigo-200 hover:text-white p-1 rounded"

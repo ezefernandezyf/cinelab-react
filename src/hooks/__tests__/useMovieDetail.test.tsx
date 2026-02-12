@@ -35,9 +35,7 @@ describe('useMovieDetail hook', () => {
       credits: {},
       similar: { results: [] },
       videos: {
-        results: [
-          { id: 'v1', key: 'YTKEY123', site: 'YouTube', type: 'Trailer' },
-        ],
+        results: [{ id: 'v1', key: 'YTKEY123', site: 'YouTube', type: 'Trailer' }],
       },
     };
 
