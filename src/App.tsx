@@ -1,10 +1,7 @@
-import { AppRouter } from "../AppRouter";
-
+import { AppRouter } from '../AppRouter';
 
 function App(): React.JSX.Element {
-  return (
-    <AppRouter />
-  );
+  return <AppRouter />;
 }
 
 export default App;

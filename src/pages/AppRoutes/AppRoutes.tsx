@@ -6,7 +6,6 @@ import SearchPage from '../SearchPage/SearchPage';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
 import MovieDetailPage from '../MovieDetail/MovieDetailPage';
 
-
 export const AppRoutes = (): React.JSX.Element => {
   return (
     <Routes>
@@ -15,7 +14,7 @@ export const AppRoutes = (): React.JSX.Element => {
         <Route path="home" element={<HomePage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="favorites" element={<FavoritesPage />} />
-        <Route path='movie/:id' element={<MovieDetailPage />} />
+        <Route path="movie/:id" element={<MovieDetailPage />} />
         <Route path="not-found" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />
       </Route>

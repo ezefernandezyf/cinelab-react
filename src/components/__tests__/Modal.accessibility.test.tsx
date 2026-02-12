@@ -5,7 +5,6 @@ import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import Modal from '../Modal/Modal';
 
 beforeEach(() => {
-
   document.body.innerHTML = '';
 });
 

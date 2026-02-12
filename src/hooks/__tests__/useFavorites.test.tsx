@@ -1,19 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach } from 'vitest';
-import  useFavorites from '../useFavorites';
-
+import useFavorites from '../useFavorites';
 
 function TestComponent() {
-  const { favorites, isFavorite, toggleFavorite, addFavorite, removeFavorite, clearFavorites } = useFavorites();
+  const { favorites, isFavorite, toggleFavorite, addFavorite, removeFavorite, clearFavorites } =
+    useFavorites();
 
   return (
     <div>
       <div data-testid="favorites">{JSON.stringify(favorites)}</div>
-      <button onClick={() => addFavorite(1)} data-testid="add-1">add-1</button>
-      <button onClick={() => toggleFavorite(1)} data-testid="toggle-1">toggle-1</button>
-      <button onClick={() => removeFavorite(1)} data-testid="remove-1">remove-1</button>
-      <button onClick={() => clearFavorites()} data-testid="clear">clear</button>
+      <button onClick={() => addFavorite(1)} data-testid="add-1">
+        add-1
+      </button>
+      <button onClick={() => toggleFavorite(1)} data-testid="toggle-1">
+        toggle-1
+      </button>
+      <button onClick={() => removeFavorite(1)} data-testid="remove-1">
+        remove-1
+      </button>
+      <button onClick={() => clearFavorites()} data-testid="clear">
+        clear
+      </button>
       <div data-testid="isFav-1">{String(isFavorite(1))}</div>
     </div>
   );

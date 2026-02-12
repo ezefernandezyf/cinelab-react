@@ -19,8 +19,7 @@ export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get('q') ?? '';
 
-  const { query, setQuery, data, loading, error, page, setPage } =
-    useSearchMovies(q);
+  const { query, setQuery, data, loading, error, page, setPage } = useSearchMovies(q);
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
 

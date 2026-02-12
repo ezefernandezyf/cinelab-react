@@ -28,12 +28,7 @@ function TestWrapper({
     setOpen(false);
   };
   return (
-    <TrailerModal
-      trailerKey={trailerKey}
-      open={open}
-      onClose={handleClose}
-      title="Test Movie"
-    />
+    <TrailerModal trailerKey={trailerKey} open={open} onClose={handleClose} title="Test Movie" />
   );
 }
 

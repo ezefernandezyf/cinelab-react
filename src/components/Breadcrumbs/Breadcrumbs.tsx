@@ -42,8 +42,8 @@ export default function Breadcrumbs({ items, onBack }: Props) {
       </ol>
       {onBack && (
         <button
-        type='button'
-        aria-label='Ir atrás'
+          type="button"
+          aria-label="Ir atrás"
           onClick={onBack}
           className="ml-4 px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300 dark:hover:bg-slate-600"
         >

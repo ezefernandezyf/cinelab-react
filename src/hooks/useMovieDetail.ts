@@ -36,13 +36,14 @@ export default function useMovieDetail(id?: number) {
     initialData: null,
   });
 
-
   return {
     details: data?.details ?? null,
     credits: data?.credits ?? null,
     similar: data?.similar ?? null,
     videos: data?.videos ?? null,
-    trailerKey: data?.videos?.results?.find((v) => v.type === 'Trailer' && v.site === 'YouTube')?.key ?? undefined,
+    trailerKey:
+      data?.videos?.results?.find((v) => v.type === 'Trailer' && v.site === 'YouTube')?.key ??
+      undefined,
     loading,
     error,
     refetch,

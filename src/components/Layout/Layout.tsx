@@ -3,7 +3,6 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SkipLink from '../SkipLink/SkipLink';
 
-
 export const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
