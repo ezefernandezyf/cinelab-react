@@ -3,14 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, beforeEach, afterEach, expect, vi, type Mock } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
-const mockUseMovieDetail: Mock = vi.fn();
-
 vi.mock('../../hooks/useMovieDetail', () => {
   return {
-    default: mockUseMovieDetail,
+    default: vi.fn(),
   };
 });
 
+import useMovieDetail from '../../hooks/useMovieDetail';
 import MovieDetailPage from '../MovieDetail/MovieDetailPage';
 
 beforeEach(() => {
@@ -34,7 +33,7 @@ function renderWithRouter() {
 
 describe('MovieDetailPage', () => {
   it('disables "Ver trailer" button when trailerKey is not present', async () => {
-
+    const mockUseMovieDetail = useMovieDetail as Mock;
     mockUseMovieDetail.mockReturnValue({
       details: { id: 123, title: 'No Trailer' },
       credits: null,
@@ -50,12 +49,11 @@ describe('MovieDetailPage', () => {
     const btn = await screen.findByRole('button', { name: /ver trailer/i });
     expect(btn).toBeDisabled();
 
-
     expect(mockUseMovieDetail).toHaveBeenCalled();
-
   });
 
   it('enables "Ver trailer" and opens modal when clicked', async () => {
+    const mockUseMovieDetail = useMovieDetail as Mock;
     mockUseMovieDetail.mockReturnValue({
       details: { id: 123, title: 'With Trailer' },
       credits: null,
@@ -68,7 +66,7 @@ describe('MovieDetailPage', () => {
 
     renderWithRouter();
 
-     const btn = await screen.findByRole('button', { name: /ver trailer/i });
+    const btn = await screen.findByRole('button', { name: /ver trailer/i });
 
     if (btn.hasAttribute('disabled')) {
       console.log('BUTTON HTML (debug):', btn.outerHTML);
