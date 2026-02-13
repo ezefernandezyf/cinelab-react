@@ -29,7 +29,6 @@ describe('src/services/api', () => {
     vi.resetAllMocks();
   });
 
-  // ...imports y mocks arriba (sin cambios)
 
   it('initAxios crea instancia de axios y registra interceptors', async () => {
     const api = await import('../api');
