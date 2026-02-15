@@ -10,7 +10,7 @@ vi.mock('../api', () => {
 
 describe('src/services/movie.service', () => {
   beforeEach(() => {
-    vi.resetModules(); 
+    vi.resetModules();
     vi.resetAllMocks();
   });
 
