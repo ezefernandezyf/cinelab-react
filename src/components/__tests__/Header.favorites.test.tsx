@@ -45,7 +45,6 @@ describe('Header favorites counter (integration with FavoritesProvider)', () => 
       </MemoryRouter>
     );
 
-    // Hay al menos un enlace "Favoritos" (puede haber Desktop + Mobile)
     const favLinks = screen.getAllByRole('link', { name: /favoritos/i });
     expect(favLinks.length).toBeGreaterThan(0);
 
@@ -68,15 +67,12 @@ describe('Header favorites counter (integration with FavoritesProvider)', () => 
       </MemoryRouter>
     );
 
-    // Añadimos
     await user.click(screen.getByTestId('btn-add'));
     await waitFor(() => expect(screen.getByText('1')).toBeInTheDocument());
 
-    // Toggle quita -> 0
     await user.click(screen.getByTestId('btn-toggle'));
     await waitFor(() => expect(screen.getByText('0')).toBeInTheDocument());
 
-    // Añadimos otra vez y luego clear
     await user.click(screen.getByTestId('btn-add'));
     await waitFor(() => expect(screen.getByText('1')).toBeInTheDocument());
 
