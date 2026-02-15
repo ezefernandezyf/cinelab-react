@@ -21,7 +21,6 @@ type UseApiReturn = {
   refetch: () => Promise<unknown>;
 };
 
-// Shared variables initialized in beforeEach
 let mockSearchMovies: ReturnType<typeof vi.fn>;
 let mockUseApi: ReturnType<typeof vi.fn>;
 let lastFetcher: ((signal?: AbortSignal) => Promise<unknown>) | undefined;
