@@ -27,25 +27,25 @@ export default function Header(): React.JSX.Element {
           <div className="hidden md:flex md:items-center md:space-x-6">
             <nav
               aria-label="Main navigation"
-              className="flex items-center space-x-4 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600"
+              className="flex items-center space-x-4 text-sm font-medium text-slate-700 dark:text-slate-200 "
             >
               <NavLink
                 to="/home"
-                className="focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className="focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="home"
               >
                 Inicio
               </NavLink>
               <NavLink
                 to="/search"
-                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="search"
               >
                 Buscar
               </NavLink>
               <NavLink
                 to="/favorites"
-                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="favorites"
               >
                 Favoritos

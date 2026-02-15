@@ -96,4 +96,21 @@ describe('useMovieDetail hook', () => {
 
     expect(screen.getByTestId('loading').textContent).toBe('true');
   });
+
+  it('exposes error when useApi returns an error', () => {
+    mockedUseApi.mockImplementationOnce(
+      (): UseApiReturnShape => ({
+        data: null,
+        loading: false,
+        error: new Error('fetch failed'),
+        refetch: vi.fn(),
+      })
+    );
+
+    renderForId(10);
+
+    expect(screen.getByTestId('title').textContent).toBe('no-title');
+    expect(screen.getByTestId('trailer').textContent).toBe('no-trailer');
 });
+
+})
