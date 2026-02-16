@@ -17,18 +17,18 @@ export default function Breadcrumbs({ items, onBack }: Props) {
           return (
             <li key={index} className="flex items-center">
               {item.to && !isLast ? (
-                <Link to={item.to} className="text-sm text-slate-600 hover:underline">
+                <Link to={item.to} className="hover:underline">
                   {item.label}
                 </Link>
               ) : isLast ? (
                 <span
                   aria-current="page"
-                  className="text-sm font-medium text-slate-800 dark:text-slate-200"
+                  className="font-medium text-slate-800 dark:text-slate-200"
                 >
                   {item.label}
                 </span>
               ) : (
-                <span className="text-sm text-slate-600">{item.label}</span>
+                <span>{item.label}</span>
               )}
 
               {!isLast && (

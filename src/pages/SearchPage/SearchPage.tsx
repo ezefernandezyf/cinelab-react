@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { MovieList } from '../../components';
 
 function formatError(e: unknown): string | null {
-  if (e == null) return null; // null or undefined
+  if (e == null) return null;
   if (typeof e === 'string') return e;
   if (e instanceof Error) return e.message;
   try {
@@ -26,6 +26,16 @@ export default function SearchPage() {
   useEffect(() => {
     headingRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (q !== query) {
+      setQuery(q);
+      if (page !== 1) {
+        setPage(1);
+      }
+      headingRef.current?.focus();
+    }
+  }, [q, query, setQuery, setPage, page]);
 
   const handleSearch = (newQ: string) => {
     setQuery(newQ);

@@ -1,20 +1,14 @@
 import { useState } from 'react';
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, NavLink } from 'react-router-dom';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
+import HeaderSearch from '../HeaderSearch/HeaderSearch';
 
 export default function Header(): React.JSX.Element {
-  const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
 
   const favCtx = useFavoritesContext();
   const favCount = favCtx.favorites?.length ?? 0;
-
-  function onSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    console.log('Buscar:', query);
-  }
 
   return (
     <header className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b">
@@ -31,24 +25,27 @@ export default function Header(): React.JSX.Element {
           </div>
 
           <div className="hidden md:flex md:items-center md:space-x-6">
-            <nav aria-label="Main navigation" className="flex items-center space-x-4">
+            <nav
+              aria-label="Main navigation"
+              className="flex items-center space-x-4 text-sm font-medium text-slate-700 dark:text-slate-200 "
+            >
               <NavLink
                 to="/home"
-                className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className="focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="home"
               >
                 Inicio
               </NavLink>
               <NavLink
                 to="/search"
-                className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="search"
               >
                 Buscar
               </NavLink>
               <NavLink
                 to="/favorites"
-                className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded"
+                className=" focus:outline-none focus:ring-2 focus:ring-sky-500 rounded hover:text-sky-600"
                 aria-label="favorites"
               >
                 Favoritos
@@ -65,32 +62,7 @@ export default function Header(): React.JSX.Element {
               </NavLink>
             </nav>
 
-            <form
-              role="search"
-              aria-label="Buscar películas"
-              onSubmit={onSubmit}
-              className="ml-4 flex items-center"
-            >
-              <label htmlFor="search" className="sr-only">
-                Buscar películas
-              </label>
-              <input
-                id="search"
-                name="q"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar películas..."
-                className="w-64 px-3 py-2 border rounded-md text-sm bg-white/80 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-              <button
-                type="submit"
-                className="ml-2 px-3 py-2 bg-sky-600 text-white rounded-md text-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              >
-                <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">Buscar</span>
-              </button>
-            </form>
+            <HeaderSearch className="ml-4 flex items-center" />
           </div>
 
           <div className="md:hidden flex items-center">
@@ -112,45 +84,18 @@ export default function Header(): React.JSX.Element {
       </div>
 
       <div id="mobile-menu" className={`md:hidden ${open ? 'block' : 'hidden'} border-t`}>
-        <div className="px-4 pt-2 pb-4 space-y-2">
-          <NavLink
-            to="/home"
-            className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-          >
+        <div className="px-4 pt-2 pb-4 space-y-2 text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <NavLink to="/home" className="block px-3 py-2 rounded ">
             Inicio
           </NavLink>
-          <NavLink
-            to="/search"
-            className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-          >
+          <NavLink to="/search" className="block px-3 py-2 rounded ">
             Buscar
           </NavLink>
-          <NavLink
-            to="/favorites"
-            className="block px-3 py-2 rounded text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-          >
+          <NavLink to="/favorites" className="block px-3 py-2 rounded ">
             Favoritos
           </NavLink>
 
-          <form
-            role="search"
-            aria-label="Buscar películas"
-            onSubmit={onSubmit}
-            className="mt-2 flex items-center"
-          >
-            <label htmlFor="mobile-search" className="sr-only">
-              Buscar películas
-            </label>
-            <input
-              id="mobile-search"
-              name="q"
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar películas..."
-              className="w-full px-3 py-2 border rounded-md text-sm bg-white/80 dark:bg-slate-800 border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </form>
+          <HeaderSearch inputId="mobile-search" className="mt-2 w-full" fullWidth />
         </div>
       </div>
     </header>

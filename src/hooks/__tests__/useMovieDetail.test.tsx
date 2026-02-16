@@ -8,8 +8,25 @@ vi.mock('../useApi', () => ({
 import useApi from '../useApi';
 import useMovieDetail from '../useMovieDetail';
 
+type UseApiReturnShape = {
+  data: unknown | null;
+  loading: boolean;
+  error: unknown | null;
+  refetch: () => Promise<unknown>;
+};
+
+const mockedUseApi = useApi as unknown as Mock<() => UseApiReturnShape>;
+
 beforeEach(() => {
   document.body.innerHTML = '';
+  mockedUseApi.mockImplementation(
+    (): UseApiReturnShape => ({
+      data: null,
+      loading: false,
+      error: null,
+      refetch: vi.fn(),
+    })
+  );
 });
 
 afterEach(() => {
@@ -28,6 +45,10 @@ function TestComponent({ id }: { id?: number }) {
   );
 }
 
+function renderForId(id?: number) {
+  render(<TestComponent id={id} />);
+}
+
 describe('useMovieDetail hook', () => {
   it('returns trailerKey when useApi provides videos with a YouTube Trailer', () => {
     const mockData = {
@@ -39,28 +60,54 @@ describe('useMovieDetail hook', () => {
       },
     };
 
-    (useApi as unknown as Mock).mockImplementation(() => ({
-      data: mockData,
-      loading: false,
-      error: null,
-      refetch: vi.fn(),
-    }));
+    mockedUseApi.mockImplementationOnce(
+      (): UseApiReturnShape => ({
+        data: mockData,
+        loading: false,
+        error: null,
+        refetch: vi.fn(),
+      })
+    );
 
-    render(<TestComponent id={1} />);
+    renderForId(1);
 
     expect(screen.getByTestId('title').textContent).toBe('Test Movie');
     expect(screen.getByTestId('trailer').textContent).toBe('YTKEY123');
   });
 
   it('returns nullish values when useApi returns no data', () => {
-    (useApi as unknown as Mock).mockImplementation(() => ({
-      data: null,
-      loading: false,
-      error: null,
-      refetch: vi.fn(),
-    }));
+    renderForId(2);
 
-    render(<TestComponent id={2} />);
+    expect(screen.getByTestId('title').textContent).toBe('no-title');
+    expect(screen.getByTestId('trailer').textContent).toBe('no-trailer');
+  });
+
+  it('handles loading true from useApi', () => {
+    mockedUseApi.mockImplementationOnce(
+      (): UseApiReturnShape => ({
+        data: null,
+        loading: true,
+        error: null,
+        refetch: vi.fn(),
+      })
+    );
+
+    renderForId(3);
+
+    expect(screen.getByTestId('loading').textContent).toBe('true');
+  });
+
+  it('exposes error when useApi returns an error', () => {
+    mockedUseApi.mockImplementationOnce(
+      (): UseApiReturnShape => ({
+        data: null,
+        loading: false,
+        error: new Error('fetch failed'),
+        refetch: vi.fn(),
+      })
+    );
+
+    renderForId(10);
 
     expect(screen.getByTestId('title').textContent).toBe('no-title');
     expect(screen.getByTestId('trailer').textContent).toBe('no-trailer');
