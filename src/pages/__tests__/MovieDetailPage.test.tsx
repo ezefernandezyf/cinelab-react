@@ -68,10 +68,6 @@ describe('MovieDetailPage', () => {
 
     const btn = await screen.findByRole('button', { name: /ver trailer/i });
 
-    if (btn.hasAttribute('disabled')) {
-      console.log('BUTTON HTML (debug):', btn.outerHTML);
-    }
-
     expect(btn).toBeEnabled();
 
     await userEvent.click(btn);
@@ -84,5 +80,39 @@ describe('MovieDetailPage', () => {
     if (iframe) {
       expect(iframe).toHaveAttribute('src', expect.stringContaining('YT_TEST_KEY'));
     }
+  });
+
+  it('shows placeholder when details is null', () => {
+    const mockUseMovieDetail = useMovieDetail as Mock;
+    mockUseMovieDetail.mockReturnValue({
+      details: null,
+      credits: null,
+      similar: null,
+      trailerKey: undefined,
+      loading: false,
+      error: null,
+      refetch: vi.fn(),
+    });
+
+    renderWithRouter();
+
+    expect(screen.getByText(/pel[ií]cula no encontrada/i)).toBeInTheDocument();
+  });
+
+  it('shows error message when error is present', () => {
+    const mockUseMovieDetail = useMovieDetail as Mock;
+    mockUseMovieDetail.mockReturnValue({
+      details: null,
+      credits: null,
+      similar: null,
+      trailerKey: undefined,
+      loading: false,
+      error: new Error('fetch failed'),
+      refetch: vi.fn(),
+    });
+
+    renderWithRouter();
+
+    expect(screen.queryByText(/error/i) || screen.queryByText(/fetch failed/i)).toBeTruthy();
   });
 });
