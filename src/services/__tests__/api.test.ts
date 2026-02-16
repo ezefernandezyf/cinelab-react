@@ -1,3 +1,4 @@
+import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mockRequestUse = vi.fn();
@@ -85,7 +86,7 @@ describe('src/services/api', () => {
     const requestInterceptor = mockRequestUse.mock.calls[0][0];
     const cfg = { url: '/movies', params: { page: 1 } };
 
-    const res = requestInterceptor(cfg as any);
+    const res = requestInterceptor(cfg as InternalAxiosRequestConfig);
     expect(res.params).toEqual(expect.objectContaining({ page: 1, api_key: 'APIKEY123' }));
   });
 
@@ -98,7 +99,7 @@ describe('src/services/api', () => {
     const requestInterceptor = mockRequestUse.mock.calls[0][0];
     const cfg = { url: '/movies' };
 
-    const res = requestInterceptor(cfg as any);
+    const res = requestInterceptor(cfg as InternalAxiosRequestConfig);
     expect(res.params).toBeDefined();
     expect(res.params.api_key).toBe('KEY_INIT');
   });
@@ -112,7 +113,7 @@ describe('src/services/api', () => {
     const requestInterceptor = mockRequestUse.mock.calls[0][0];
     const cfg = { url: '/movies', params: { api_key: 'EXISTING' } };
 
-    const res = requestInterceptor(cfg as any);
+    const res = requestInterceptor(cfg as InternalAxiosRequestConfig);
     expect(res.params.api_key).toBe('EXISTING');
   });
 
@@ -140,7 +141,7 @@ describe('src/services/api', () => {
     const responseInterceptor = mockResponseUse.mock.calls[0][0];
     const fakeResponse = { config: { url: '/x' }, status: 200, data: { ok: true } };
 
-    const res = responseInterceptor(fakeResponse as any);
+    const res = responseInterceptor(fakeResponse as AxiosResponse);
     expect(res).toBe(fakeResponse);
   });
 });
