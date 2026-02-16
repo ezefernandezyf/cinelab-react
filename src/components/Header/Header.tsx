@@ -95,11 +95,7 @@ export default function Header(): React.JSX.Element {
             Favoritos
           </NavLink>
 
-          <HeaderSearch
-            inputId="mobile-search"
-            className="mt-2 w-full" 
-            fullWidth
-          />
+          <HeaderSearch inputId="mobile-search" className="mt-2 w-full" fullWidth />
         </div>
       </div>
     </header>

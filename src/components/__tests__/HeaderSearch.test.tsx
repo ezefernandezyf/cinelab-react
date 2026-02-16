@@ -7,7 +7,12 @@ import HeaderSearch from '../HeaderSearch/HeaderSearch';
 
 function LocationDisplay() {
   const location = useLocation();
-  return <div data-testid="location">{location.pathname}{location.search}</div>;
+  return (
+    <div data-testid="location">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
 }
 
 beforeEach(() => {
@@ -43,7 +48,9 @@ describe('HeaderSearch (MemoryRouter integration)', () => {
       </MemoryRouter>
     );
 
-    const input = screen.getByLabelText('Buscar películas', { selector: 'input' }) as HTMLInputElement;
+    const input = screen.getByLabelText('Buscar películas', {
+      selector: 'input',
+    }) as HTMLInputElement;
     const button = screen.getByRole('button', { name: /buscar/i });
 
     await user.type(input, 'matrix 2000');

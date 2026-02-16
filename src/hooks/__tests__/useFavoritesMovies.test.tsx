@@ -34,9 +34,10 @@ afterEach(() => {
 beforeEach(async () => {
   vi.resetModules();
 
- mockGetMovie = vi.fn()
-  .mockImplementationOnce(async () => ({ ...initialMovies[0] }))
-  .mockImplementationOnce(async () => ({ ...initialMovies[1] }))
+  mockGetMovie = vi
+    .fn()
+    .mockImplementationOnce(async () => ({ ...initialMovies[0] }))
+    .mockImplementationOnce(async () => ({ ...initialMovies[1] }));
 
   mockUseApi = vi
     .fn()

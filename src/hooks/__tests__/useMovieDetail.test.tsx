@@ -81,7 +81,7 @@ describe('useMovieDetail hook', () => {
     expect(screen.getByTestId('title').textContent).toBe('no-title');
     expect(screen.getByTestId('trailer').textContent).toBe('no-trailer');
   });
-  
+
   it('handles loading true from useApi', () => {
     mockedUseApi.mockImplementationOnce(
       (): UseApiReturnShape => ({
@@ -111,6 +111,5 @@ describe('useMovieDetail hook', () => {
 
     expect(screen.getByTestId('title').textContent).toBe('no-title');
     expect(screen.getByTestId('trailer').textContent).toBe('no-trailer');
+  });
 });
-
-})

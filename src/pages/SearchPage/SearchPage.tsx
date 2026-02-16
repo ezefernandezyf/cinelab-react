@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { MovieList } from '../../components';
 
 function formatError(e: unknown): string | null {
-  if (e == null) return null; 
+  if (e == null) return null;
   if (typeof e === 'string') return e;
   if (e instanceof Error) return e.message;
   try {
@@ -27,7 +27,7 @@ export default function SearchPage() {
     headingRef.current?.focus();
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     if (q !== query) {
       setQuery(q);
       if (page !== 1) {
