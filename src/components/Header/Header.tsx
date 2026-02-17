@@ -3,6 +3,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link, NavLink } from 'react-router-dom';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 import HeaderSearch from '../HeaderSearch/HeaderSearch';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 export default function Header(): React.JSX.Element {
   const [open, setOpen] = useState(false);
@@ -63,6 +64,8 @@ export default function Header(): React.JSX.Element {
             </nav>
 
             <HeaderSearch className="ml-4 flex items-center" />
+            <ThemeToggle />
+
           </div>
 
           <div className="md:hidden flex items-center">
