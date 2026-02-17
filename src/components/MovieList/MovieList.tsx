@@ -1,6 +1,7 @@
 import MovieCard from '../MovieCard/MovieCard';
 import type { PagedResponse, MovieSummary } from '../../models/movie.model';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   movies?: MovieSummary[];
@@ -10,6 +11,16 @@ type Props = {
   onPageChange?: (page: number) => void;
 };
 
+const SkeletonCard = () => (
+  <div className="animate-pulse flex flex-col gap-3 p-3 rounded-lg bg-[rgba(255,255,255,0.03)] h-full">
+    <div className="w-full h-64 sm:h-72 md:h-48 lg:h-64 bg-slate-700/40 rounded-md" />
+    <div className="flex-1">
+      <div className="h-4 bg-slate-700/30 rounded w-3/4 mb-2" />
+      <div className="h-3 bg-slate-700/20 rounded w-1/2" />
+    </div>
+  </div>
+);
+
 export const MovieList = ({ data, loading, error, onPageChange, movies }: Props) => {
   const { isFavorite, toggleFavorite } = useFavoritesContext();
   const page = data?.page ?? 1;
@@ -18,57 +29,91 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
 
   const list: MovieSummary[] = movies ?? data?.results ?? [];
 
-  if (loading) return <div role="status">Cargando...</div>;
-  if (error) return <div role="alert">{error}</div>;
+  // Loading state: skeleton placeholders
+  if (loading) {
+    const skeletonCount = 8;
+    return (
+      <section>
+        <ul
+          role="list"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-fr"
+          aria-hidden
+        >
+          {Array.from({ length: skeletonCount }).map((_, i) => (
+            <li key={i} className="h-full min-h-0">
+              <SkeletonCard />
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
+
+  if (error) return <div role="alert" className="text-red-400">{error}</div>;
 
   if (!list || list.length === 0) {
-    return <p>No hay resultados.</p>;
+    return <p className="text-center text-sm text-slate-500 dark:text-slate-300">No hay resultados.</p>;
   }
 
   return (
-    <section>
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading" className="sr-only">Resultados de búsqueda</h2>
+
       <span className="sr-only" aria-live="polite">
         {data ? `${totalResults} resultados — página ${page} de ${totalPages}` : ''}
       </span>
+
       <ul
         role="list"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
         data-testid="movie-list"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-fr"
       >
         {list.map((movie) => (
-          <li role="listitem" key={movie.id} data-testid="movie-item">
-            <MovieCard
-              movie={movie}
-              isFavorite={isFavorite(movie.id)}
-              onToggleFavorite={() => toggleFavorite(movie.id)}
-            />
+          <li role="listitem" key={movie.id} data-testid="movie-item" className="h-full min-h-0">
+            {/* wrapper to apply animation without changing MovieCard internals */}
+            <div className="h-full motion-safe:animate-fade-in-up">
+              <MovieCard
+                movie={movie}
+                isFavorite={isFavorite(movie.id)}
+                onToggleFavorite={() => toggleFavorite(movie.id)}
+              />
+            </div>
           </li>
         ))}
       </ul>
-      <div data-testid="pagination">
+
+      {/* Pagination */}
+      <div className="mt-6 flex justify-center items-center">
         {data && totalPages > 1 && (
-          <nav aria-label="Paginación" data-testid="pagination">
-            <div className="flex justify-center items-center gap-2 mt-4">
+          <nav aria-label="Paginación">
+            <div className="inline-flex items-center gap-3">
               <button
                 type="button"
-                aria-label="Previous page"
+                aria-label="Página previa"
                 disabled={!(data && page > 1)}
-                className="px-3 py-1 rounded bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 onClick={() => onPageChange?.(Math.max(1, page - 1))}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 dark:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
               >
-                Prev
+                <ChevronLeftIcon className="w-5 h-5" aria-hidden />
+                <span className="sr-only">Anterior</span>
+                <span className="hidden sm:inline">Prev</span>
               </button>
-              <span aria-current="page">
-                Page {page} / {totalPages}
-              </span>
+
+              <div className="text-sm">
+                <span className="font-medium">{page}</span>
+                <span className="mx-2 text-slate-400">/</span>
+                <span className="text-slate-500 dark:text-slate-300">{totalPages}</span>
+              </div>
+
               <button
                 type="button"
-                aria-label="Next page"
-                disabled={!(data && (page ?? 1) < totalPages)}
-                className="px-3 py-1 rounded bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                aria-label="Página siguiente"
+                disabled={!(data && page < totalPages)}
                 onClick={() => onPageChange?.(Math.min(totalPages, page + 1))}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 dark:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRightIcon className="w-5 h-5" aria-hidden />
               </button>
             </div>
           </nav>
@@ -77,3 +122,5 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
     </section>
   );
 };
+
+export default MovieList;

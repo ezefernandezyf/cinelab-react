@@ -27,24 +27,21 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
   return (
     <article
       data-testid="movie-card"
-      className="flex flex-col md:flex-row gap-3 p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200"
+      className="h-full flex flex-col gap-3 p-3 bg-white/6 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 min-h-0"
       aria-label={`Movie ${movie.title}`}
     >
       <Link
         to={`/movie/${movie.id}`}
-        className="flex-shrink-0 block w-full md:w-40 lg:w-48"
+        className="block w-full"
         state={{ from: location.pathname }}
-        aria-hidden={false}
       >
-        
-        <div className="w-full h-64 sm:h-72 md:h-48 lg:h-64 overflow-hidden rounded-md bg-black">
+        {/* Poster with fixed aspect ratio to keep all cards same visual height */}
+        <div className="w-full aspect-[2/3] overflow-hidden rounded-md bg-black">
           <img
             src={posterUrl}
             alt={movie.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover block"
             loading="lazy"
-            width={342}
-            height={513}
             decoding="async"
           />
         </div>
@@ -64,7 +61,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
           </p>
         </div>
 
-        <div className="mt-3 md:mt-0 flex items-center justify-between">
+        <div className="mt-3 flex items-center justify-between">
           <Link
             to={`/movie/${movie.id}`}
             className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -74,13 +71,14 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             Ver detalles
           </Link>
 
-          {/* Star-only favorite button */}
           <button
             data-testid="favorite-btn"
             type="button"
             aria-pressed={isFavorite}
             aria-label={
-              isFavorite ? `Quitar ${movie.title} de favoritos` : `Agregar ${movie.title} a favoritos`
+              isFavorite
+                ? `Quitar ${movie.title} de favoritos`
+                : `Agregar ${movie.title} a favoritos`
             }
             onClick={handleToggleFav}
             className={`inline-flex items-center justify-center p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 ${
@@ -90,15 +88,11 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             }`}
             title={isFavorite ? 'Favorito' : 'Agregar a favoritos'}
           >
-            {/* Icon swap for filled/outline */}
             {isFavorite ? (
               <StarSolid className="w-5 h-5" aria-hidden />
             ) : (
               <StarOutline className="w-5 h-5" aria-hidden />
             )}
-            {/* visually hidden text for screen readers if you want (optional)
-            <span className="sr-only">{isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}</span>
-            */}
           </button>
         </div>
       </div>
