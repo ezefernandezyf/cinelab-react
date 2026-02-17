@@ -1,0 +1,9 @@
+# Allow all bots to crawl the site
+User-agent: *
+Allow: /
+
+# Block access to API routes or internal paths
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://cinelab-movies.vercel.app/sitemap.xml
