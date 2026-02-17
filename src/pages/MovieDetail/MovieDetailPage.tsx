@@ -123,6 +123,8 @@ export default function MovieDetailPage(): React.JSX.Element {
               src={posterUrl}
               alt={`${details.title} poster`}
               className="w-full rounded-md shadow-sm"
+              fetchPriority="high"
+              decoding="async"
             />
           ) : (
             <div className="w-full h-72 bg-slate-200 dark:bg-slate-700 rounded-md flex items-center justify-center">
@@ -152,6 +154,8 @@ export default function MovieDetailPage(): React.JSX.Element {
                     }
                     alt={actor.name}
                     className="w-12 h-12 rounded object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="text-sm">
                     <div className="font-medium">{actor.name}</div>
@@ -176,6 +180,8 @@ export default function MovieDetailPage(): React.JSX.Element {
                       }
                       alt={m.title}
                       className="w-full h-40 object-cover rounded"
+                      fetchPriority="high"
+                      decoding="async"
                     />
                     <h4 className="text-sm mt-1">{m.title}</h4>
                   </Link>
