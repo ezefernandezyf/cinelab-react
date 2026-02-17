@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import type { MovieSummary } from '../../models';
-import placeholder from '../../../public/placeholder.png';
+import placeholder from '/placeholder.png';
 import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
 import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
 
