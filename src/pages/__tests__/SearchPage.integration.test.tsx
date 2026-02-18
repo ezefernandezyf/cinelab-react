@@ -10,21 +10,20 @@ describe('SearchPage integration - pagination & deep-link', () => {
     vi.clearAllMocks();
   });
 
-  it('sincroniza la página inicial desde el query param (deep-link) llamando setPage', async () => {
-    const setPageMock = vi.fn();
+  it('sincroniza la página inicial desde el query param (deep-link) pasando page al hook', async () => {
+    const pagesSeen: number[] = [];
 
     vi.doMock('../../hooks/useSearchMovies', async () => {
       return {
-        default: (q: string) => {
+        default: (q: string, pageArg: number) => {
+          pagesSeen.push(pageArg);
           return {
             query: q,
             setQuery: vi.fn(),
             searchTerm: q,
-            data: { page: 1, total_pages: 5, total_results: 0, results: [] },
+            data: { page: pageArg, total_pages: 5, total_results: 0, results: [] },
             loading: false,
             error: null,
-            page: 1,
-            setPage: setPageMock,
             refetch: vi.fn(),
           };
         },
@@ -42,22 +41,24 @@ describe('SearchPage integration - pagination & deep-link', () => {
     );
 
     await waitFor(() => {
-      expect(setPageMock).toHaveBeenCalledWith(3);
+      // el primer llamado al hook debe recibir page = 3 (deep-link)
+      expect(pagesSeen[0]).toBe(3);
     });
   });
 
-  it('al clickear Prev y Next llama a setPage con los valores correctos', async () => {
-    const setPageMock = vi.fn();
+  it('al clickear Prev y Next actualiza la página y re-renderiza el hook con los valores correctos', async () => {
+    const pagesSeen: number[] = [];
 
     vi.doMock('../../hooks/useSearchMovies', async () => {
       return {
-        default: (q: string) => {
+        default: (q: string, pageArg: number) => {
+          pagesSeen.push(pageArg);
           return {
             query: q,
             setQuery: vi.fn(),
             searchTerm: q,
             data: {
-              page: 2,
+              page: pageArg,
               total_pages: 3,
               total_results: 1,
               results: [
@@ -72,8 +73,6 @@ describe('SearchPage integration - pagination & deep-link', () => {
             },
             loading: false,
             error: null,
-            page: 2,
-            setPage: setPageMock,
             refetch: vi.fn(),
           };
         },
@@ -83,7 +82,7 @@ describe('SearchPage integration - pagination & deep-link', () => {
     const { default: SearchPage } = await import('../SearchPage/SearchPage');
 
     render(
-      <MemoryRouter initialEntries={['/search?q=batman']}>
+      <MemoryRouter initialEntries={['/search?q=batman&page=2']}>
         <Routes>
           <Route path="/search" element={<SearchPage />} />
         </Routes>
@@ -98,10 +97,20 @@ describe('SearchPage integration - pagination & deep-link', () => {
     expect(prevBtn).not.toBeDisabled();
     expect(nextBtn).not.toBeDisabled();
 
+    // click Prev -> debería re-renderizar con page = 1
     await user.click(prevBtn);
-    expect(setPageMock).toHaveBeenLastCalledWith(1);
+    await waitFor(() => {
+      expect(pagesSeen).toContain(1);
+    });
 
     await user.click(nextBtn);
-    expect(setPageMock).toHaveBeenLastCalledWith(3);
+    await waitFor(() => {
+      expect(pagesSeen).toContain(2);
+    });
+
+    await user.click(nextBtn);
+    await waitFor(() => {
+      expect(pagesSeen).toContain(3);
+    });
   });
 });

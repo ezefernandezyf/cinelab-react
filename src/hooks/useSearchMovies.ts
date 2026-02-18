@@ -3,19 +3,14 @@ import { searchMovies } from '../services/movie.service';
 import useApi, { type UseApiOptions } from './useApi';
 import type { MovieSummary, PagedResponse } from '../models';
 
-export default function useSearchMovies(initialQuery = '') {
+export default function useSearchMovies(initialQuery = '', page = 1) {
   const [query, setQuery] = useState<string>(initialQuery);
-  const [page, setPage] = useState<number>(1);
 
   const [debouncedQuery, setDebouncedQuery] = useState<string>(initialQuery);
   useEffect(() => {
     const id = setTimeout(() => setDebouncedQuery(query), 400);
     return () => clearTimeout(id);
   }, [query]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [debouncedQuery, setPage]);
 
   const fetcher = useCallback(
     (signal?: AbortSignal) => searchMovies(debouncedQuery, page, signal),
@@ -44,7 +39,6 @@ export default function useSearchMovies(initialQuery = '') {
     loading,
     error,
     page,
-    setPage,
     refetch,
   };
 }
