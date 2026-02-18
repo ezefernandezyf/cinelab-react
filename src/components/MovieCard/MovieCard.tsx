@@ -27,16 +27,15 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
   return (
     <article
       data-testid="movie-card"
-      className="h-full flex flex-col gap-3 p-3 bg-white/6 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 min-h-0"
+      className="h-full flex flex-col gap-3 p-3 card hover:shadow-lg transition-shadow duration-200 min-h-0"
       aria-label={`Movie ${movie.title}`}
     >
       <Link to={`/movie/${movie.id}`} className="block w-full" state={{ from: location.pathname }}>
-        {/* Poster with fixed aspect ratio to keep all cards same visual height */}
-        <div className="w-full aspect-[2/3] overflow-hidden rounded-md bg-black">
+        <div className="w-full aspect-[2/3] overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
           <img
             src={posterUrl}
             alt={movie.title}
-            className="w-full h-full object-cover block"
+            className="w-full h-full object-cover block transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             decoding="async"
           />
@@ -61,7 +60,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
         <div className="mt-3 flex items-center justify-between">
           <Link
             to={`/movie/${movie.id}`}
-            className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="inline-block px-3 py-1 text-sm bg-cinematic-action text-white rounded hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action"
             aria-label={`Ver detalles de ${movie.title}`}
             state={{ from: location.pathname }}
           >
@@ -81,7 +80,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             className={`inline-flex items-center justify-center p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 ${
               isFavorite
                 ? 'bg-amber-300 text-slate-900 focus:ring-amber-400'
-                : 'bg-transparent text-slate-700 dark:text-slate-200 focus:ring-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                : 'bg-transparent text-slate-700 dark:text-slate-200 focus:ring-cinematic-action hover:bg-slate-50 dark:hover:bg-slate-700'
             }`}
             title={isFavorite ? 'Favorito' : 'Agregar a favoritos'}
           >
