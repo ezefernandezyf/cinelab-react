@@ -124,4 +124,23 @@ describe('src/services/movie.service', () => {
     await expect(movieService.searchMovies('x')).rejects.toThrow('boom');
     expect(mockApiGet).toHaveBeenCalled();
   });
+
+  it('getPopular llama a apiGet con /movie/popular y devuelve paged response', async () => {
+    const fake = { results: [{ id: 1 }, { id: 2 }], page: 1, total_pages: 1, total_results: 2 };
+    mockApiGet.mockResolvedValue(fake);
+
+    const movieService = await import('../movie.service');
+
+    const signal = new AbortController().signal;
+    const data = await movieService.getPopular(1, signal);
+
+    expect(mockApiGet).toHaveBeenCalledWith(
+      '/movie/popular',
+      expect.objectContaining({
+        params: { language: 'es-ES', page: 1 },
+        signal,
+      })
+    );
+    expect(data).toEqual(fake);
+  });
 });

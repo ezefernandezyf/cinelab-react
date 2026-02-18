@@ -53,3 +53,13 @@ export async function getVideos(id: number, signal?: AbortSignal): Promise<Video
     signal,
   });
 }
+
+export async function getPopular(
+  page = 1,
+  signal?: AbortSignal
+): Promise<PagedResponse<MovieSummary>> {
+  return apiGet<PagedResponse<MovieSummary>>('/movie/popular', {
+    params: { language: 'es-ES', page },
+    signal,
+  });
+}
