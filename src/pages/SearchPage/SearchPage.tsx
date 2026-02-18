@@ -94,8 +94,9 @@ export default function SearchPage() {
         <div className="mb-4 text-sm text-slate-500 dark:text-slate-400" aria-live="polite">
           {data.total_results > 0 ? (
             <>
-              Mostrando <span className="font-medium">{data.total_results}</span> resultados — página{' '}
-              <span className="font-medium">{data.page}</span> de <span className="font-medium">{data.total_pages}</span>
+              Mostrando <span className="font-medium">{data.total_results}</span> resultados —
+              página <span className="font-medium">{data.page}</span> de{' '}
+              <span className="font-medium">{data.total_pages}</span>
             </>
           ) : (
             <>No se encontraron resultados.</>
