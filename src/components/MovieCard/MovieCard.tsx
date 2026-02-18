@@ -27,7 +27,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
   return (
     <article
       data-testid="movie-card"
-      className="h-full flex flex-col gap-3 p-3 card hover:shadow-lg transition-shadow duration-200 min-h-0"
+      className="group h-full flex flex-col gap-3 p-3 card hover:shadow-lg transition-shadow duration-200 min-h-0"
       aria-label={`Movie ${movie.title}`}
     >
       <Link to={`/movie/${movie.id}`} className="block w-full" state={{ from: location.pathname }}>
