@@ -70,16 +70,40 @@ export default function SearchPage() {
   const errorMessage = formatError(error);
 
   return (
-    <main style={{ padding: 16 }}>
-      <h1 tabIndex={-1} ref={headingRef}>
-        Buscar películas
-      </h1>
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <header className="mb-6">
+        <h1
+          tabIndex={-1}
+          ref={headingRef}
+          className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-slate-100"
+        >
+          Buscar películas
+        </h1>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          Busca por título para encontrar películas y acceder a sus detalles.
+        </p>
+      </header>
 
-      <section aria-labelledby="search-form">
-        <SearchBar defaultValue={query} onSearch={handleSearch} />
+      <section aria-labelledby="search-form" className="mb-6">
+        <div className="max-w-2xl">
+          <SearchBar defaultValue={query} onSearch={handleSearch} />
+        </div>
       </section>
 
-      <section aria-live="polite" aria-busy={loading} style={{ marginTop: 16 }}>
+      {data && (
+        <div className="mb-4 text-sm text-slate-500 dark:text-slate-400" aria-live="polite">
+          {data.total_results > 0 ? (
+            <>
+              Mostrando <span className="font-medium">{data.total_results}</span> resultados — página{' '}
+              <span className="font-medium">{data.page}</span> de <span className="font-medium">{data.total_pages}</span>
+            </>
+          ) : (
+            <>No se encontraron resultados.</>
+          )}
+        </div>
+      )}
+
+      <section aria-live="polite" aria-busy={loading}>
         <MovieList
           data={data}
           loading={loading}
