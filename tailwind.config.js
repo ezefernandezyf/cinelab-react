@@ -2,6 +2,14 @@
 export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'text-cinematic-action',
+    'text-cinematic-action-600',
+    'bg-cinematic-action',
+    'bg-cinematic-action-600',
+    'hover:bg-cinematic-action-600',
+    'focus:ring-cinematic-action-600',
+  ],
   theme: {
     extend: {
       colors: {
@@ -17,6 +25,10 @@ export default {
           accent: {
             DEFAULT: '#FF5A5F',
             600: '#e84b50',
+          },
+          action: {
+            DEFAULT: '#2563eb',
+            600: '#1d4ed8',
           },
         },
       },

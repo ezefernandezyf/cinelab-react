@@ -3,14 +3,17 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SkipLink from '../SkipLink/SkipLink';
 
-export const Layout = () => {
+export const Layout = (): React.JSX.Element => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
       <SkipLink />
 
       <Header />
 
-      <main id="main-content" className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
+      <main
+        id="main-content"
+        className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full pt-20 md:pt-16"
+      >
         <Outlet />
       </main>
 
@@ -18,3 +21,5 @@ export const Layout = () => {
     </div>
   );
 };
+
+export default Layout;

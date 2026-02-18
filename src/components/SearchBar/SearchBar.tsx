@@ -54,7 +54,7 @@ export const SearchBar = ({ defaultValue = '', onSearch }: Props) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`inline-flex items-center gap-2 px-3 py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400`}
+          className={`inline-flex items-center gap-2 px-3 py-2 rounded-md bg-cinematic-action text-white text-sm font-medium hover:bg-indigo-700 transition disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400`}
         >
           Buscar
         </button>
