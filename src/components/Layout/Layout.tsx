@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -5,7 +6,7 @@ import SkipLink from '../SkipLink/SkipLink';
 
 export const Layout = (): React.JSX.Element => {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
+    <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] antialiased transition-colors duration-200">
       <SkipLink />
 
       <Header />
@@ -22,4 +23,3 @@ export const Layout = (): React.JSX.Element => {
   );
 };
 
-export default Layout;

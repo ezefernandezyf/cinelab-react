@@ -30,6 +30,10 @@ export default {
             DEFAULT: '#2563eb',
             600: '#1d4ed8',
           },
+          surface: '#f7fafc', 
+          card: '#ffffff', 
+          muted: '#6b7280', 
+          border: '#e6eef6',
         },
       },
       fontFamily: {
