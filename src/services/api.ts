@@ -4,6 +4,7 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import logger from '../utilities/logger';
 
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL ?? 'https://api.themoviedb.org/3';
 
@@ -23,9 +24,7 @@ const setupInterceptors = () => {
       if (!('api_key' in config.params)) {
         config.params.api_key = apiKey;
       }
-      if (import.meta.env.DEV) {
-        console.debug('Request to: ', config.url, config.params);
-      }
+      logger.debug('Request to: ', config.url, config.params);
       return config;
     },
     (error) => {
@@ -34,21 +33,17 @@ const setupInterceptors = () => {
   );
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => {
-      if (import.meta.env.DEV) {
-        console.debug('Response from:', response.config.url, { status: response.status });
-      }
+      logger.debug('Response from:', response.config.url, { status: response.status });
       return response;
     },
     (error) => {
-      if (import.meta.env.DEV) {
-        if (error?.response) {
-          console.error('Error response from:', error.response.config?.url, {
-            status: error.response.status,
-            data: error.response.data,
-          });
-        } else {
-          console.error('Network or other error:', error.message);
-        }
+      if (error?.response) {
+        logger.error('Error response from:', error.response.config?.url, {
+          status: error.response.status,
+          data: error.response.data,
+        });
+      } else {
+        logger.error('Network or other error:', error?.message ?? error);
       }
       return Promise.reject(error);
     }

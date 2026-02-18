@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import logger from '../utilities/logger';
 
 export default function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -14,7 +15,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T | (() =>
           : initialValue;
     } catch (e) {
       if (import.meta.env.DEV) {
-        console.warn(`useLocalStorage: failed to parse key "${key}", using initialValue`, e);
+        logger.warn(`useLocalStorage: failed to parse key "${key}", using initialValue`, e);
       }
       return typeof initialValue === 'function' ? (initialValue as () => T)() : initialValue;
     }
@@ -26,7 +27,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T | (() =>
       window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (e) {
       if (import.meta.env.DEV) {
-        console.warn(`useLocalStorage: failed to persist key "${key}"`, e);
+        logger.warn(`useLocalStorage: failed to persist key "${key}"`, e);
       }
     }
   }, [key, storedValue]);

@@ -1,5 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
+import logger from '../../utilities/logger';
 
 export type ToastItem = {
   id: string;
@@ -52,8 +53,7 @@ function Toast({ item, onClose }: { item: ToastItem; onClose: (id: string) => vo
               try {
                 onAction();
               } catch (err) {
-                // Log the error so ESLint rule `no-empty` isn't violated and we can debug if needed
-                console.error('Toast action failed:', err);
+                logger.error('Toast action failed:', err);
               } finally {
                 onClose(id);
               }
