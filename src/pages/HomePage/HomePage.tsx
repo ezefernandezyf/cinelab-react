@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export const HomePage = (): React.JSX.Element => {
@@ -15,7 +14,7 @@ export const HomePage = (): React.JSX.Element => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-4">
-          <div className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-6 rounded-md shadow-sm">
+          <div className="card p-6">
             <h2 className="text-xl font-medium mb-2">Descubre películas</h2>
             <p className="text-sm text-slate-600 dark:text-slate-400">
               Busca por título, navega por recomendaciones o revisa tus favoritas.
@@ -24,21 +23,22 @@ export const HomePage = (): React.JSX.Element => {
             <div className="mt-4 flex gap-3">
               <Link
                 to="/search"
-                className="inline-flex items-center px-4 py-2 rounded-md bg-cinematic-action text-white hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600"
+                className="inline-flex items-center px-4 py-2 rounded-md bg-cinematic-action text-white hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600 transition"
               >
                 Buscar películas
               </Link>
 
               <Link
                 to="/favorites"
-                className="inline-flex items-center px-4 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cinematic-action"
+                className="inline-flex items-center px-4 py-2 rounded-md border"
+                style={{ borderColor: 'var(--border)' }}
               >
                 Ver favoritos
               </Link>
             </div>
           </div>
 
-          <div className="p-4 bg-white dark:bg-slate-900 rounded-md shadow-sm">
+          <div className="card p-4">
             <h3 className="text-lg font-medium">Últimas actividades</h3>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
               Contenido de ejemplo / placeholder.
@@ -47,14 +47,14 @@ export const HomePage = (): React.JSX.Element => {
         </div>
 
         <aside className="space-y-4">
-          <div className="p-4 bg-white dark:bg-slate-900 rounded-md shadow-sm">
+          <div className="card p-4">
             <h4 className="text-sm font-medium">Tus favoritos</h4>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               Rápido acceso a lo guardado.
             </p>
           </div>
 
-          <div className="p-4 bg-white dark:bg-slate-900 rounded-md shadow-sm">
+          <div className="card p-4">
             <h4 className="text-sm font-medium">Recomendado</h4>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               Películas que podrían gustarte.
@@ -66,4 +66,3 @@ export const HomePage = (): React.JSX.Element => {
   );
 };
 
-export default HomePage;
