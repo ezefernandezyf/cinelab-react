@@ -1,13 +1,15 @@
-const isProd = import.meta.env?.PROD === true;
+const enableLogs = import.meta.env?.VITE_ENABLE_LOGS === 'true';
+const silentInProd = import.meta.env?.PROD === true && !enableLogs;
 
-function noop(..._args: unknown[]) {
-  // no-op in production for debug/log
-}
+const noop = (..._args: unknown[]) => {
+  void _args;
+  return undefined;
+};
 
 const logger = {
-  debug: isProd ? noop : (...args: unknown[]) => console.debug(...args),
-  log: isProd ? noop : (...args: unknown[]) => console.log(...args),
-  info: isProd ? noop : (...args: unknown[]) => console.info(...args),
+  debug: silentInProd ? noop : (...args: unknown[]) => console.debug(...args),
+  log: silentInProd ? noop : (...args: unknown[]) => console.log(...args),
+  info: silentInProd ? noop : (...args: unknown[]) => console.info(...args),
   warn: (...args: unknown[]) => console.warn(...args),
   error: (...args: unknown[]) => console.error(...args),
 };
