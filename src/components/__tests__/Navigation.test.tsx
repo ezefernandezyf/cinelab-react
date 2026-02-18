@@ -17,5 +17,5 @@ test('navega a Home al clickear el logo sin recargar la página', async () => {
   const logo = screen.getByRole('link', { name: /cinelab — inicio/i });
   await user.click(logo);
 
-  expect(screen.getByRole('heading', { name: /home/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /bienvenido a cinelab|home/i })).toBeInTheDocument();
 });
