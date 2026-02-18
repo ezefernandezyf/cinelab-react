@@ -6,12 +6,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap');
 
 /* Design tokens (mobile-first) */
-:root{
-  --bg: #eef2f6;            
-  --surface: #ffffff;      
-  --text: #0f1724;         
-  --muted: #6b7280;         
-  --border: #e6eef6;      
+:root {
+  --bg: #eef2f6;
+  --surface: #ffffff;
+  --text: #0f1724;
+  --muted: #6b7280;
+  --border: #e6eef6;
   --cinematic-action: #2563eb;
   --card: #111426;
   --accent: #ff5a5f;
@@ -24,7 +24,7 @@
 /* Light theme values (system preference) */
 @media (prefers-color-scheme: light) {
   :root {
-    --bg: #eef2f6;         /* keep slightly off-white */
+    --bg: #eef2f6; /* keep slightly off-white */
     --surface: #ffffff;
     --card: #f8fafc;
     --text: #0f1724;

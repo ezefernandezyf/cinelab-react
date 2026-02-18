@@ -22,4 +22,3 @@ export const Layout = (): React.JSX.Element => {
     </div>
   );
 };
-

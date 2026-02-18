@@ -37,7 +37,7 @@ beforeEach(async () => {
     default: () => ({ movies: mockRecPaged.results.slice(0, 4), loading: false }),
   }));
 
-  const mod = await import('../HomePage/HomePage'); 
+  const mod = await import('../HomePage/HomePage');
   HomePage = mod.default;
 });
 

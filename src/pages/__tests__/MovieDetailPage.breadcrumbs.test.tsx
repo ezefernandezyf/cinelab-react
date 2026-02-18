@@ -77,7 +77,6 @@ describe('MovieDetailPage breadcrumbs & back navigation (from /favorites)', () =
 
     await userEvent.click(backBtn);
 
-  
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalled();
     });

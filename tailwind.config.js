@@ -21,7 +21,7 @@ export default {
           500: '#1E293B',
           neutral: '#0F1724',
           text: '#E6EEF6',
-          textMuted: '#94A3B8', 
+          textMuted: '#94A3B8',
           accent: {
             DEFAULT: '#FF5A5F',
             600: '#e84b50',
@@ -32,7 +32,7 @@ export default {
           },
           surface: '#f7fafc',
           card: '#ffffff',
-          muted: '#6b7280', 
+          muted: '#6b7280',
           border: '#e6eef6',
         },
       },
