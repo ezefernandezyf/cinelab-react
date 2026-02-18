@@ -6,7 +6,7 @@ import useToast from '../../hooks/useToast';
 import { Link } from 'react-router-dom';
 import type { MovieSummary } from '../../models/movie.model';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
-import { SkeletonCard }  from '../../components/SkeletonCard/SkeletonCard';
+import {SkeletonCard} from '../../components/SkeletonCard/SkeletonCard';
 
 export default function FavoritesPage(): React.JSX.Element {
   const { favorites, isFavorite, toggleFavorite } = useFavoritesContext();
@@ -38,6 +38,7 @@ export default function FavoritesPage(): React.JSX.Element {
     [isFavorite, toggleFavorite, addToast]
   );
 
+  // Loading: skeletons with card look
   if (loading) {
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -58,6 +59,7 @@ export default function FavoritesPage(): React.JSX.Element {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -69,33 +71,37 @@ export default function FavoritesPage(): React.JSX.Element {
     );
   }
 
+  // Empty state
   if (!favorites || favorites.length === 0) {
     return (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-        <h1 className="text-2xl font-semibold mb-2">Tus favoritos</h1>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
-          No tenés películas favoritas todavía.
-        </p>
+        <div className="card p-6 inline-block">
+          <h1 className="text-2xl font-semibold mb-2">Tus favoritos</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+            No tenés películas favoritas todavía.
+          </p>
 
-        <div className="flex items-center justify-center gap-3">
-          <Link
-            to="/search"
-            className="inline-flex items-center px-4 py-2 rounded-md bg-cinematic-action text-white hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600 transition"
-          >
-            Buscar películas
-          </Link>
+          <div className="flex items-center justify-center gap-3">
+            <Link
+              to="/search"
+              className="inline-flex items-center px-4 py-2 rounded-md bg-cinematic-action text-white hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600 transition"
+            >
+              Buscar películas
+            </Link>
 
-          <Link
-            to="/"
-            className="inline-flex items-center px-4 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cinematic-action transition"
-          >
-            Volver al inicio
-          </Link>
+            <Link
+              to="/"
+              className="inline-flex items-center px-4 py-2 rounded-md border border-[var(--border)] text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cinematic-action transition"
+            >
+              Volver al inicio
+            </Link>
+          </div>
         </div>
       </main>
     );
   }
 
+  // Normal state: show favorites grid
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <header className="mb-6 flex items-center justify-between gap-4">
