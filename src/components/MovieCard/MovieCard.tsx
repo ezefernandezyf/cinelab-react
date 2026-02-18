@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import type { MovieSummary } from '../../models';
 import placeholder from '../../../public/placeholder.png';
+import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
+import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
 
 type Props = {
   movie: MovieSummary;
@@ -16,6 +18,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
 
   const handleToggleFav = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     onToggleFavorite?.(movie.id);
   };
 
@@ -24,26 +27,28 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
   return (
     <article
       data-testid="movie-card"
-      className="flex flex-col md:flex-row gap-3 p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow md:items-center"
+      className="h-full flex flex-col gap-3 p-3 bg-white/6 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 min-h-0"
       aria-label={`Movie ${movie.title}`}
     >
-      <Link to={`/movie/${movie.id}`} className="flex-shrink-0" state={{ from: location.pathname }}>
-        <img
-          src={posterUrl}
-          alt={movie.title}
-          className="w-40 md:w-48 h-auto rounded-md object-cover"
-          loading="lazy"
-          width={192}
-          height={288}
-          decoding="async"
-        />
+      <Link to={`/movie/${movie.id}`} className="block w-full" state={{ from: location.pathname }}>
+        {/* Poster with fixed aspect ratio to keep all cards same visual height */}
+        <div className="w-full aspect-[2/3] overflow-hidden rounded-md bg-black">
+          <img
+            src={posterUrl}
+            alt={movie.title}
+            className="w-full h-full object-cover block"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </Link>
 
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between flex-1 min-w-0">
         <div>
           <h3
             data-testid="movie-title"
-            className="text-base md:text-lg font-semibold leading-tight text-slate-900 dark:text-slate-100"
+            className="text-base md:text-lg font-semibold leading-tight text-slate-900 dark:text-slate-100 truncate"
+            title={movie.title}
           >
             {movie.title}
           </h3>
@@ -53,10 +58,10 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
           </p>
         </div>
 
-        <div className="mt-3 md:mt-0 flex gap-3 items-center">
+        <div className="mt-3 flex items-center justify-between">
           <Link
             to={`/movie/${movie.id}`}
-            className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
+            className="inline-block px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             aria-label={`Ver detalles de ${movie.title}`}
             state={{ from: location.pathname }}
           >
@@ -73,13 +78,18 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
                 : `Agregar ${movie.title} a favoritos`
             }
             onClick={handleToggleFav}
-            className={`inline-flex items-center px-3 py-1 text-sm rounded ${
+            className={`inline-flex items-center justify-center p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 ${
               isFavorite
-                ? 'bg-amber-300 text-slate-900'
-                : 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
-            } focus:outline-none focus:ring-2 focus:ring-indigo-400`}
+                ? 'bg-amber-300 text-slate-900 focus:ring-amber-400'
+                : 'bg-transparent text-slate-700 dark:text-slate-200 focus:ring-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+            }`}
+            title={isFavorite ? 'Favorito' : 'Agregar a favoritos'}
           >
-            {isFavorite ? '★ Favorito' : '☆ Favorito'}
+            {isFavorite ? (
+              <StarSolid className="w-5 h-5" aria-hidden />
+            ) : (
+              <StarOutline className="w-5 h-5" aria-hidden />
+            )}
           </button>
         </div>
       </div>

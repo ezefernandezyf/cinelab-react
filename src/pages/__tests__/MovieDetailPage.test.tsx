@@ -153,8 +153,10 @@ describe('MovieDetailPage', () => {
     const poster =
       screen.getByRole('img', { name: /Full Movie/i }) || screen.queryByAltText(/full movie/i);
     expect(poster).toBeTruthy();
+    expect(['high', 'auto', null]).toContain(poster.getAttribute('fetchpriority'));
 
-    expect(screen.getByText(/Actor One/i)).toBeInTheDocument();
+    const actorImg = screen.getByText(/Actor One/i);
+    expect(actorImg).toBeInTheDocument();
 
     expect(screen.getByText(/Similar Movie/i)).toBeInTheDocument();
 

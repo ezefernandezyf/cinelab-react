@@ -33,13 +33,18 @@ export default function HeaderSearch({
   };
 
   const inputFlexClasses = fullWidth ? 'flex-1 min-w-0' : 'w-auto';
-
   const computedInputClasses = [
-    'px-2',
-    'py-2',
-    'border',
+    'pl-10 pr-3 py-2',
     'rounded-md',
     'text-sm',
+    'outline-none',
+    'shadow-sm',
+    'border',
+    'border-transparent',
+    'focus:ring-2 focus:ring-indigo-400',
+    'bg-[var(--surface)]',
+    'text-[var(--text)]',
+    'placeholder:text-[var(--muted)]',
     inputFlexClasses,
     inputClassName,
   ]
@@ -47,11 +52,21 @@ export default function HeaderSearch({
     .join(' ');
 
   return (
-    <form role="search" aria-label={ariaLabel} onSubmit={handleSubmit} className={className}>
+    <form
+      role="search"
+      aria-label={ariaLabel}
+      onSubmit={handleSubmit}
+      className={`flex items-center ${className}`}
+    >
       <label htmlFor={inputId ?? 'header-search-input'} className="sr-only">
         {ariaLabel}
       </label>
-      <div className="flex items-center w-full">
+
+      <div className={`relative ${fullWidth ? 'flex-1' : ''}`}>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <MagnifyingGlassIcon className="w-5 h-5" aria-hidden />
+        </span>
+
         <input
           id={inputId ?? 'header-search-input'}
           name="q"
@@ -62,14 +77,15 @@ export default function HeaderSearch({
           className={computedInputClasses}
           aria-label={ariaLabel}
         />
-        <button
-          type="submit"
-          aria-label="Buscar"
-          className="ml-2 px-3 py-1 bg-sky-600 text-white rounded-md text-sm flex-shrink-0"
-        >
-          <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
       </div>
+
+      <button
+        type="submit"
+        aria-label="Buscar"
+        className="ml-2 px-3 py-2 bg-indigo-600 text-white rounded-md text-sm flex-shrink-0 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+      >
+        <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
     </form>
   );
 }

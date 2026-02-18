@@ -30,7 +30,6 @@ type UseApiFn = (
   options?: MockApiOptions<MovieDetailPayload>
 ) => UseApiReturn<MovieDetailPayload>;
 
-
 let mockGetMovie: ReturnType<typeof vi.fn>;
 let mockGetCredits: ReturnType<typeof vi.fn>;
 let mockGetSimilar: ReturnType<typeof vi.fn>;
@@ -56,24 +55,31 @@ beforeEach(async () => {
   const movieDetailsExample = { id: 1, title: 'MovieOne' };
   const creditsExample = { cast: [], crew: [] };
   const similarExample = { page: 1, results: [], total_pages: 1, total_results: 0 };
-  const videosExample = { results: [{ id: 'v1', key: 'YTKEY123', site: 'YouTube', type: 'Trailer' }] };
+  const videosExample = {
+    results: [{ id: 'v1', key: 'YTKEY123', site: 'YouTube', type: 'Trailer' }],
+  };
 
   mockGetMovie = vi.fn().mockResolvedValue(movieDetailsExample);
   mockGetCredits = vi.fn().mockResolvedValue(creditsExample);
   mockGetSimilar = vi.fn().mockResolvedValue(similarExample);
   mockGetVideos = vi.fn().mockResolvedValue(videosExample);
 
-  mockUseApiFn = vi.fn().mockImplementation(
-    (fetcher: (signal?: AbortSignal) => Promise<MovieDetailPayload>, options?: MockApiOptions<MovieDetailPayload>) => {
-      lastFetcher = fetcher;
-      return {
-        data: options?.initialData ?? null,
-        loading: false,
-        error: null,
-        refetch: async () => fetcher(),
-      };
-    }
-  );
+  mockUseApiFn = vi
+    .fn()
+    .mockImplementation(
+      (
+        fetcher: (signal?: AbortSignal) => Promise<MovieDetailPayload>,
+        options?: MockApiOptions<MovieDetailPayload>
+      ) => {
+        lastFetcher = fetcher;
+        return {
+          data: options?.initialData ?? null,
+          loading: false,
+          error: null,
+          refetch: async () => fetcher(),
+        };
+      }
+    );
 
   mockUseApi = mockUseApiFn as UseApiFn;
 
