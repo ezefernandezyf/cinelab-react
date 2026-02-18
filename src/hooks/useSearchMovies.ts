@@ -14,10 +14,8 @@ export default function useSearchMovies(initialQuery = '') {
   }, [query]);
 
   useEffect(() => {
-    if (page === 1) return;
-    const id = window.setTimeout(() => setPage(1), 0);
-    return () => clearTimeout(id);
-  }, [debouncedQuery, page, setPage]);
+    setPage(1);
+  }, [debouncedQuery, setPage]);
 
   const fetcher = useCallback(
     (signal?: AbortSignal) => searchMovies(debouncedQuery, page, signal),
