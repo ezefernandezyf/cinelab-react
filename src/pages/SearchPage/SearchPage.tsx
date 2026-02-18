@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SearchBar } from '../../components';
 import useSearchMovies from '../../hooks/useSearchMovies';
 import { useSearchParams } from 'react-router-dom';
@@ -18,54 +18,48 @@ function formatError(e: unknown): string | null {
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get('q') ?? '';
+  const pageFromParams = Number(searchParams.get('page') ?? 1);
 
-  const { query, setQuery, data, loading, error, page, setPage } = useSearchMovies(q);
+  // PAGE: local state controlled by SearchPage (single source of truth)
+  const [page, setPage] = useState<number>(pageFromParams);
+
+  const { query, setQuery, data, loading, error } = useSearchMovies(q, page);
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
-    headingRef.current?.focus();
-  }, []);
+    if (!pageFromParams || pageFromParams === page) return;
+    const id = window.setTimeout(() => {
+      setPage(pageFromParams);
+    }, 0);
+
+    return () => clearTimeout(id);
+  }, [pageFromParams, page]);
 
   useEffect(() => {
     if (q !== query) {
       setQuery(q);
-      if (page !== 1) {
-        setPage(1);
-      }
       headingRef.current?.focus();
     }
-  }, [q, query, setQuery, setPage, page]);
+  }, [q, query, setQuery]);
 
   const handleSearch = (newQ: string) => {
     setQuery(newQ);
-    if (newQ) {
-      setSearchParams({ q: newQ });
-    } else {
-      setSearchParams({});
-    }
+    const params = new URLSearchParams();
+    if (newQ) params.set('q', newQ);
+    setSearchParams(params);
   };
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
 
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
-    if (nextPage > 1) {
-      params.set('page', String(nextPage));
-    } else {
-      params.delete('page');
-    }
+    const params = new URLSearchParams();
+    if (query) params.set('q', query);
+    if (nextPage > 1) params.set('page', String(nextPage));
     setSearchParams(params);
 
     headingRef.current?.focus();
   };
-
-  useEffect(() => {
-    const pageFromParams = Number(searchParams.get('page') ?? 1);
-    if (pageFromParams && pageFromParams !== page) {
-      setPage(pageFromParams);
-    }
-  }, [searchParams, page, setPage]);
 
   const errorMessage = formatError(error);
 

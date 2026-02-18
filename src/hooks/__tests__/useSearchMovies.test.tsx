@@ -24,15 +24,18 @@ type UseApiReturn = {
 let mockSearchMovies: ReturnType<typeof vi.fn>;
 let mockUseApi: ReturnType<typeof vi.fn>;
 let lastFetcher: ((signal?: AbortSignal) => Promise<unknown>) | undefined;
-let useSearchMovies: (initialQuery?: string) => {
+let useSearchMovies: (
+  initialQuery?: string,
+  page?: number
+) => {
   query: string;
   setQuery: (q: string) => void;
   searchTerm: string;
   data: PagedResponse<MovieSummary> | null;
   loading: boolean;
   error: unknown;
+  // page now provided as argument, but we can still return its value for convenience
   page: number;
-  setPage: (p: number) => void;
   refetch: () => Promise<unknown>;
 };
 
@@ -73,9 +76,10 @@ beforeEach(async () => {
 });
 
 describe('useSearchMovies (mocked useApi, refactorizado)', () => {
-  it('A - immediate option follows initialQuery (no immediate when empty, immediate when non-empty)', async () => {
+  it('A - immediate option sigue initialQuery (immediate false si vacío, true si no vacío)', async () => {
     function TestComponent1() {
-      useSearchMovies('');
+      // pasar page explícito (ej. 1)
+      useSearchMovies('', 1);
       return null;
     }
     render(<TestComponent1 />);
@@ -88,7 +92,7 @@ describe('useSearchMovies (mocked useApi, refactorizado)', () => {
 
     const { default: useSearchMovies2 } = await import('../useSearchMovies');
     function TestComponent2() {
-      useSearchMovies2('hello');
+      useSearchMovies2('hello', 1);
       return null;
     }
     render(<TestComponent2 />);
@@ -98,9 +102,9 @@ describe('useSearchMovies (mocked useApi, refactorizado)', () => {
     );
   });
 
-  it('B - debounce: updates searchTerm after 400ms and fetcher calls searchMovies with debouncedQuery and page', async () => {
+  it('B - debounce: updates searchTerm after 400ms and fetcher calls searchMovies with debouncedQuery and pageArg', async () => {
     function TestComponent() {
-      const { setQuery } = useSearchMovies('');
+      const { setQuery } = useSearchMovies('', 1);
       return (
         <button data-testid="set-query" onClick={() => setQuery('batman')}>
           set-query
@@ -135,50 +139,10 @@ describe('useSearchMovies (mocked useApi, refactorizado)', () => {
       });
     }
 
+
     expect(mockSearchMovies).toHaveBeenCalledWith('batman', 1, expect.anything());
     vi.useRealTimers();
   });
 
-  it('C - changing query resets page to 1 (effect uses setTimeout 0)', async () => {
-    function TestComponent() {
-      const { page, setPage, setQuery } = useSearchMovies('');
-      return (
-        <div>
-          <div data-testid="page">{String(page)}</div>
-          <button data-testid="set-page-3" onClick={() => setPage(3)}>
-            set-page-3
-          </button>
-          <button data-testid="set-query" onClick={() => setQuery('batman')}>
-            set-query
-          </button>
-        </div>
-      );
-    }
 
-    vi.useFakeTimers();
-    render(<TestComponent />);
-
-    await act(async () => {
-      const btn = screen.getByTestId('set-page-3');
-      btn.click();
-    });
-    expect(screen.getByTestId('page').textContent).toBe('3');
-
-    await act(async () => {
-      const btn = screen.getByTestId('set-query');
-      btn.click();
-    });
-
-    act(() => {
-      vi.advanceTimersByTime(400);
-      vi.runOnlyPendingTimers();
-    });
-
-    await act(async () => {
-      await Promise.resolve();
-    });
-
-    expect(screen.getByTestId('page').textContent).toBe('1');
-    vi.useRealTimers();
-  });
 });
