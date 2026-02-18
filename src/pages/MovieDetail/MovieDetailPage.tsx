@@ -145,7 +145,7 @@ export default function MovieDetailPage(): React.JSX.Element {
 
       <section className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6 items-start">
         <div>
-          <div className="w-full overflow-hidden rounded-md bg-black group">
+          <div className="w-full overflow-hidden rounded-md group card">
             {posterUrl ? (
               <div className="aspect-[2/3] overflow-hidden rounded-md">
                 <img
@@ -165,7 +165,7 @@ export default function MovieDetailPage(): React.JSX.Element {
         </div>
 
         <div>
-          <section className="mb-6">
+          <section className="mb-6 card p-4">
             <h2 className="text-xl font-semibold mb-2">Sinopsis</h2>
             <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
               {details.overview || 'No hay sinopsis disponible.'}
@@ -210,13 +210,13 @@ export default function MovieDetailPage(): React.JSX.Element {
               {similar?.results?.slice(0, 8).map((m) => (
                 <article
                   key={m.id}
-                  className="space-y-2 rounded-md overflow-hidden group bg-transparent hover:shadow-lg transition-shadow motion-safe:duration-200"
+                  className="space-y-2 rounded-md overflow-hidden group card hover:shadow-lg transition-shadow motion-safe:duration-200"
                 >
                   <Link
                     to={`/movie/${m.id}`}
                     className="block focus:outline-none focus:ring-2 focus:ring-cinematic-action rounded"
                   >
-                    <div className="w-full h-40 overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
+                    <div className="w-full h-40 overflow-hidden rounded-md bg-[var(--surface)] dark:bg-slate-800">
                       <img
                         src={
                           m.poster_path

@@ -92,11 +92,18 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
                 aria-label="Página previa"
                 disabled={!(data && page > 1)}
                 onClick={() => onPageChange?.(Math.max(1, page - 1))}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 dark:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[var(--surface)] border"
+                style={{ borderColor: 'var(--border)' }}
+                aria-disabled={!(data && page > 1)}
               >
-                <ChevronLeftIcon className="w-5 h-5" aria-hidden />
+                <ChevronLeftIcon
+                  className="w-5 h-5 text-slate-700 dark:text-slate-200"
+                  aria-hidden
+                />
                 <span className="sr-only">Anterior</span>
-                <span className="hidden sm:inline">Prev</span>
+                <span className="hidden sm:inline text-sm text-slate-700 dark:text-slate-200">
+                  Prev
+                </span>
               </button>
 
               <div className="text-sm">
@@ -110,10 +117,17 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
                 aria-label="Página siguiente"
                 disabled={!(data && page < totalPages)}
                 onClick={() => onPageChange?.(Math.min(totalPages, page + 1))}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 dark:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[var(--surface)] border"
+                style={{ borderColor: 'var(--border)' }}
+                aria-disabled={!(data && page < totalPages)}
               >
-                <span className="hidden sm:inline">Next</span>
-                <ChevronRightIcon className="w-5 h-5" aria-hidden />
+                <span className="hidden sm:inline text-sm text-slate-700 dark:text-slate-200">
+                  Next
+                </span>
+                <ChevronRightIcon
+                  className="w-5 h-5 text-slate-700 dark:text-slate-200"
+                  aria-hidden
+                />
               </button>
             </div>
           </nav>
@@ -122,3 +136,5 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
     </section>
   );
 };
+
+export default MovieList;
