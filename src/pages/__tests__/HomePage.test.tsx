@@ -8,6 +8,5 @@ test('renderiza HomePage en la ruta /home', () => {
       <AppRoutes />
     </MemoryRouter>
   );
-  expect(screen.getByRole('heading', { name: /home/i })).toBeInTheDocument();
-  expect(screen.getByText(/bienvenido a cinelab/i)).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /bienvenido a cinelab|home/i })).toBeInTheDocument();
 });

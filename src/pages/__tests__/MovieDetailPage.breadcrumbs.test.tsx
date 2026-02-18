@@ -68,19 +68,16 @@ describe('MovieDetailPage breadcrumbs & back navigation (from /favorites)', () =
 
     renderWithRouter();
 
-    const favCrumb = await screen.findByText('Favoritos');
-    expect(favCrumb).toBeTruthy();
+    const favLink = await screen.findByRole('link', { name: /favoritos/i });
+    expect(favLink).toBeInTheDocument();
+    expect(favLink.getAttribute('href')).toBe('/favorites');
 
-    const maybeLink = favCrumb.closest('a');
-    if (maybeLink) {
-      expect(maybeLink.getAttribute('href')).toBe('/favorites');
-    }
-
-    const backBtn = screen.getByRole('button', { name: /volver|ir atrás/i });
+    const backBtn = screen.getByRole('button', { name: /volver|ir\s*atr/i });
     expect(backBtn).toBeInTheDocument();
 
     await userEvent.click(backBtn);
 
+  
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalled();
     });
