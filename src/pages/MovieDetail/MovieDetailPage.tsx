@@ -6,7 +6,7 @@ import useMovieDetail from '../../hooks/useMovieDetail';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import useBack from '../../hooks/useBack';
 import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
-import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
+import { StarIcon as StarSolid, PlayIcon } from '@heroicons/react/24/solid';
 
 export default function MovieDetailPage(): React.JSX.Element {
   const { id } = useParams();
@@ -66,7 +66,7 @@ export default function MovieDetailPage(): React.JSX.Element {
         <p className="text-red-600">Error cargando la película.</p>
         <button
           onClick={() => refetch()}
-          className="mt-4 px-4 py-2 bg-cinematic-action text-white rounded hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600"
+          className="mt-4 px-4 py-2 bg-cinematic-action text-white rounded hover:bg-cinematic-action-600 focus:outline-none focus:ring-2 focus:ring-cinematic-action-600 transition"
         >
           Reintentar
         </button>
@@ -102,18 +102,24 @@ export default function MovieDetailPage(): React.JSX.Element {
           <button
             aria-pressed={isFavorite(details.id)}
             onClick={() => toggleFavorite(details.id)}
-            className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border ${
+            className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border transition-transform transform motion-safe:duration-200 ${
               isFavorite(details.id)
-                ? 'bg-amber-300 text-slate-900 border-amber-300'
-                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
-            } hover:shadow focus:outline-none focus:ring-2 focus:ring-cinematic-action`}
+                ? 'bg-amber-300 text-slate-900 border-amber-300 shadow-md scale-105'
+                : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow'
+            } focus:outline-none focus:ring-2 focus:ring-cinematic-action`}
             aria-label={isFavorite(details.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           >
-            {isFavorite(details.id) ? (
-              <StarSolid className="w-5 h-5" aria-hidden />
-            ) : (
-              <StarOutline className="w-5 h-5" aria-hidden />
-            )}
+            <span
+              className={`transition-colors duration-200 ${
+                isFavorite(details.id) ? 'text-amber-600' : 'text-slate-500 dark:text-slate-200'
+              }`}
+            >
+              {isFavorite(details.id) ? (
+                <StarSolid className="w-5 h-5" aria-hidden />
+              ) : (
+                <StarOutline className="w-5 h-5" aria-hidden />
+              )}
+            </span>
             <span className="text-sm">{isFavorite(details.id) ? 'Favorito' : 'Favoritos'}</span>
           </button>
 
@@ -124,27 +130,28 @@ export default function MovieDetailPage(): React.JSX.Element {
             }}
             disabled={!trailerKey}
             title={!trailerKey ? 'Trailer no disponible' : undefined}
-            className={`px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cinematic-action ${
+            className={`inline-flex items-center gap-2 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cinematic-action transition transform motion-safe:duration-200 ${
               trailerKey
-                ? 'bg-cinematic-action text-white hover:bg-cinematic-action-600'
+                ? 'bg-cinematic-action text-white hover:bg-cinematic-action-600 hover:scale-105'
                 : 'bg-slate-300 text-slate-600 cursor-not-allowed'
             }`}
             aria-label="Ver trailer"
           >
-            Ver trailer
+            <PlayIcon className="w-4 h-4" aria-hidden />
+            <span>Ver trailer</span>
           </button>
         </div>
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6 items-start">
         <div>
-          <div className="w-full overflow-hidden rounded-md bg-black">
+          <div className="w-full overflow-hidden rounded-md bg-black group">
             {posterUrl ? (
-              <div className="aspect-[2/3]">
+              <div className="aspect-[2/3] overflow-hidden rounded-md">
                 <img
                   src={posterUrl}
                   alt={`${details.title} poster`}
-                  className="w-full h-full object-cover rounded-md shadow-sm"
+                  className="w-full h-full object-cover rounded-md shadow-sm transition-transform duration-500 group-hover:scale-105"
                   fetchPriority="high"
                   decoding="async"
                 />
@@ -169,7 +176,10 @@ export default function MovieDetailPage(): React.JSX.Element {
             <h3 className="text-lg font-medium mb-3">Reparto</h3>
             <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
               {credits?.cast?.slice(0, 6).map((actor) => (
-                <li key={actor.cast_id} className="flex items-center gap-3">
+                <li
+                  key={actor.cast_id}
+                  className="flex items-center gap-3 rounded-md p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors focus-within:ring-2 focus-within:ring-cinematic-action"
+                >
                   <img
                     src={
                       actor.profile_path
@@ -177,7 +187,7 @@ export default function MovieDetailPage(): React.JSX.Element {
                         : '/placeholder.png'
                     }
                     alt={actor.name}
-                    className="w-12 h-12 rounded object-cover"
+                    className="w-12 h-12 rounded object-cover transition-transform duration-300 hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />
@@ -198,8 +208,14 @@ export default function MovieDetailPage(): React.JSX.Element {
             <h3 className="text-lg font-medium mb-3">Similares</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {similar?.results?.slice(0, 8).map((m) => (
-                <article key={m.id} className="space-y-2">
-                  <Link to={`/movie/${m.id}`} className="block">
+                <article
+                  key={m.id}
+                  className="space-y-2 rounded-md overflow-hidden group bg-transparent hover:shadow-lg transition-shadow motion-safe:duration-200"
+                >
+                  <Link
+                    to={`/movie/${m.id}`}
+                    className="block focus:outline-none focus:ring-2 focus:ring-cinematic-action rounded"
+                  >
                     <div className="w-full h-40 overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
                       <img
                         src={
@@ -208,12 +224,14 @@ export default function MovieDetailPage(): React.JSX.Element {
                             : '/placeholder.png'
                         }
                         alt={m.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
                         decoding="async"
                       />
                     </div>
-                    <h4 className="text-sm mt-1 text-slate-800 dark:text-slate-100">{m.title}</h4>
+                    <h4 className="text-sm mt-1 text-slate-800 dark:text-slate-100 truncate">
+                      {m.title}
+                    </h4>
                   </Link>
                 </article>
               ))}
