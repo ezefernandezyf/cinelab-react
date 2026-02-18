@@ -29,7 +29,7 @@ export default function Header(): React.JSX.Element {
               className="hidden md:flex items-center space-x-4 text-sm font-medium text-slate-700 dark:text-slate-200"
             >
               <NavLink
-                to="/home"
+                to="/"
                 className={({ isActive }) =>
                   `px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 hover:text-sky-600 ${isActive ? 'text-cinematic-action' : ''}`
                 }
@@ -98,9 +98,9 @@ export default function Header(): React.JSX.Element {
       <div id="mobile-menu" className={`md:hidden ${open ? 'block' : 'hidden'} border-t`}>
         <div className="px-4 pt-2 pb-4 space-y-2 text-base font-medium text-slate-700 dark:text-slate-200">
           <NavLink
-            to="/home"
+            to="/"
             className={({ isActive }) =>
-              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500" ${isActive ? 'text-cinematic-action' : ''} `
+              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 ${isActive ? 'text-cinematic-action' : ''}`
             }
           >
             Inicio
@@ -109,7 +109,7 @@ export default function Header(): React.JSX.Element {
           <NavLink
             to="/search"
             className={({ isActive }) =>
-              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500" ${isActive ? 'text-cinematic-action' : ''} `
+              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 ${isActive ? 'text-cinematic-action' : ''}`
             }
           >
             Buscar
@@ -118,7 +118,7 @@ export default function Header(): React.JSX.Element {
           <NavLink
             to="/favorites"
             className={({ isActive }) =>
-              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500" ${isActive ? 'text-cinematic-action' : ''} `
+              `block px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-sky-500 ${isActive ? 'text-cinematic-action' : ''}`
             }
           >
             Favoritos

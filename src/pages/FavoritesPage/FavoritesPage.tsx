@@ -6,7 +6,7 @@ import useToast from '../../hooks/useToast';
 import { Link } from 'react-router-dom';
 import type { MovieSummary } from '../../models/movie.model';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
-import {SkeletonCard} from '../../components/SkeletonCard/SkeletonCard';
+import { SkeletonCard } from '../../components/SkeletonCard/SkeletonCard';
 
 export default function FavoritesPage(): React.JSX.Element {
   const { favorites, isFavorite, toggleFavorite } = useFavoritesContext();

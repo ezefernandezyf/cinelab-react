@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { loadAbort } from '../utilities/loadAbort.utility';
+import logger from '../utilities/logger';
 
 type Fetcher<T> = (signal?: AbortSignal) => Promise<T>;
 
@@ -46,12 +47,11 @@ export default function useApi<T>(fetcher: Fetcher<T>, options: UseApiOptions<T>
       setData(result);
     } catch (err) {
       if (isAbortError(err)) {
-        console.debug('useApi fetch aborted');
+        logger.debug('useApi fetch aborted');
       } else {
         setError(err as Error);
-        if (import.meta.env.DEV) {
-          console.error('useApi error:', err);
-        }
+        // Keep error logging but centralised
+        logger.error('useApi error:', err);
       }
     } finally {
       if (requestIdRef.current === requestId) {
