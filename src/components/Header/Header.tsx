@@ -65,7 +65,6 @@ export default function Header(): React.JSX.Element {
 
             <HeaderSearch className="ml-4 flex items-center" />
             <ThemeToggle />
-
           </div>
 
           <div className="md:hidden flex items-center">

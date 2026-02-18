@@ -30,24 +30,26 @@ export default function TrailerModal({ trailerKey, open, onClose, title, initial
           onClick={() => {
             onClose();
           }}
-          className="absolute right-3 top-3 p-2 rounded-full bg-white/90 dark:bg-slate-800/90
-           text-slate-700 dark:text-slate-200 shadow hover:bg-white dark:hover:bg-slate-700
-            focus:outline-none focus:ring-2 focus:ring-sky-500 z-20"
+          className="absolute right-3 top-3 z-20 p-2 rounded-full bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 shadow hover:bg-white dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
         >
           <XMarkIcon className="h-5 w-5" aria-hidden="true" />
         </button>
 
-        <div className="pt-[56.25%] relative">
+        <div
+          className="w-full rounded-md overflow-hidden bg-black"
+          style={{ aspectRatio: '16 / 9' }}
+        >
           {iframeSrc ? (
             <iframe
-              className="absolute inset-0 w-full h-full border-0"
+              className="w-full h-full block"
               src={iframeSrc}
               title={title ? `Trailer de ${title}` : 'Trailer'}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              loading="lazy"
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded">
+            <div className="flex items-center justify-center w-full h-full bg-slate-100 dark:bg-slate-800">
               <p className="text-sm text-slate-700 dark:text-slate-300">
                 No hay trailer disponible
               </p>

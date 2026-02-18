@@ -6,14 +6,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap');
 
 /* Design tokens (mobile-first) */
-:root{
-  --bg: #0B0F1A;
-  --surface: #0E1220;
+:root {
+  --bg: #0b0f1a;
+  --surface: #0e1220;
   --card: #111426;
-  --text: #E6EEF6;
-  --muted: #94A3B8;
-  --accent: #FF5A5F;
-  --glass: rgba(255,255,255,0.03);
+  --text: #e6eef6;
+  --muted: #94a3b8;
+  --accent: #ff5a5f;
+  --glass: rgba(255, 255, 255, 0.03);
   --radius-md: 12px;
   --container-max: 1200px;
   --base-font-size: 16px;
@@ -28,7 +28,7 @@
     --text: #0f1724;
     --muted: #6b7280;
     --accent: #ff5a5f;
-    --glass: rgba(2,6,23,0.02);
+    --glass: rgba(2, 6, 23, 0.02);
   }
 }
 
@@ -37,19 +37,28 @@
   /* nothing here; prefer system */
 }
 :root.dark {
-  --bg: #0B0F1A;
-  --surface: #0E1220;
+  --bg: #0b0f1a;
+  --surface: #0e1220;
   --card: #111426;
-  --text: #E6EEF6;
-  --muted: #94A3B8;
+  --text: #e6eef6;
+  --muted: #94a3b8;
 }
 
 /* Base styles */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--base-font-size);
@@ -67,16 +76,16 @@ html, body, #root {
 
 /* Focus visible (accessible) */
 :focus {
-  outline: 3px solid rgba(255,90,95,0.12);
+  outline: 3px solid rgba(255, 90, 95, 0.12);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
 /* Small helpers for cards and animations */
 .card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
   border-radius: var(--radius-md);
-  box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.45);
 }
 
 /* Subtle fade-in-up animation helper */

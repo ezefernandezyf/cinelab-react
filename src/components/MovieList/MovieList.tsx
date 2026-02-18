@@ -2,6 +2,7 @@ import MovieCard from '../MovieCard/MovieCard';
 import type { PagedResponse, MovieSummary } from '../../models/movie.model';
 import { useFavoritesContext } from '../../hooks/useFavoritesContext';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { SkeletonCard } from '../SkeletonCard/SkeletonCard';
 
 type Props = {
   movies?: MovieSummary[];
@@ -10,16 +11,6 @@ type Props = {
   error?: string | null;
   onPageChange?: (page: number) => void;
 };
-
-const SkeletonCard = () => (
-  <div className="animate-pulse flex flex-col gap-3 p-3 rounded-lg bg-[rgba(255,255,255,0.03)] h-full">
-    <div className="w-full h-64 sm:h-72 md:h-48 lg:h-64 bg-slate-700/40 rounded-md" />
-    <div className="flex-1">
-      <div className="h-4 bg-slate-700/30 rounded w-3/4 mb-2" />
-      <div className="h-3 bg-slate-700/20 rounded w-1/2" />
-    </div>
-  </div>
-);
 
 export const MovieList = ({ data, loading, error, onPageChange, movies }: Props) => {
   const { isFavorite, toggleFavorite } = useFavoritesContext();
@@ -49,15 +40,24 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
     );
   }
 
-  if (error) return <div role="alert" className="text-red-400">{error}</div>;
+  if (error)
+    return (
+      <div role="alert" className="text-red-400">
+        {error}
+      </div>
+    );
 
   if (!list || list.length === 0) {
-    return <p className="text-center text-sm text-slate-500 dark:text-slate-300">No hay resultados.</p>;
+    return (
+      <p className="text-center text-sm text-slate-500 dark:text-slate-300">No hay resultados.</p>
+    );
   }
 
   return (
     <section aria-labelledby="results-heading">
-      <h2 id="results-heading" className="sr-only">Resultados de búsqueda</h2>
+      <h2 id="results-heading" className="sr-only">
+        Resultados de búsqueda
+      </h2>
 
       <span className="sr-only" aria-live="polite">
         {data ? `${totalResults} resultados — página ${page} de ${totalPages}` : ''}
@@ -122,5 +122,3 @@ export const MovieList = ({ data, loading, error, onPageChange, movies }: Props)
     </section>
   );
 };
-
-export default MovieList;

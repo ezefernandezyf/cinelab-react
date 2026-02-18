@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import type { MovieSummary } from '../../models';
-import placeholder from '/placeholder.png';
+import placeholder from '../../../public/placeholder.png';
 import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
 import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
 
@@ -30,11 +30,7 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
       className="h-full flex flex-col gap-3 p-3 bg-white/6 dark:bg-slate-800/60 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 min-h-0"
       aria-label={`Movie ${movie.title}`}
     >
-      <Link
-        to={`/movie/${movie.id}`}
-        className="block w-full"
-        state={{ from: location.pathname }}
-      >
+      <Link to={`/movie/${movie.id}`} className="block w-full" state={{ from: location.pathname }}>
         {/* Poster with fixed aspect ratio to keep all cards same visual height */}
         <div className="w-full aspect-[2/3] overflow-hidden rounded-md bg-black">
           <img
@@ -57,7 +53,8 @@ export default function MovieCard({ movie, isFavorite = false, onToggleFavorite 
             {movie.title}
           </h3>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-            {year || 'Fecha desconocida'} • <span className="font-medium">{movie.vote_average ?? '—'}</span>
+            {year || 'Fecha desconocida'} •{' '}
+            <span className="font-medium">{movie.vote_average ?? '—'}</span>
           </p>
         </div>
 

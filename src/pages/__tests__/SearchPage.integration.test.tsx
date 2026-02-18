@@ -92,8 +92,8 @@ describe('SearchPage integration - pagination & deep-link', () => {
 
     const user = userEvent.setup();
 
-    const prevBtn = await screen.findByRole('button', { name: /Previous page/i });
-    const nextBtn = await screen.findByRole('button', { name: /Next page/i });
+    const prevBtn = await screen.findByRole('button', { name: /Página previa/i });
+    const nextBtn = await screen.findByRole('button', { name: /Página siguiente/i });
 
     expect(prevBtn).not.toBeDisabled();
     expect(nextBtn).not.toBeDisabled();

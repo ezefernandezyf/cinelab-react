@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, expect, vi } from 'vitest';
@@ -24,9 +23,10 @@ function renderWithRouter(ui: React.ReactElement) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
 }
 
-it('muestra loader cuando loading es true', () => {
+it('muestra loader cuando loading es true (skeletons)', () => {
   renderWithRouter(<MovieList loading={true} />);
-  expect(screen.getByRole('status')).toHaveTextContent('Cargando...');
+  const skeletons = screen.getAllByTestId('skeleton-card');
+  expect(skeletons.length).toBeGreaterThan(0);
 });
 
 it('muestra mensaje "No hay resultados" cuando data.results está vacío', () => {
@@ -68,7 +68,8 @@ it('renderiza N items y muestra la paginación', () => {
   const items = screen.getAllByRole('listitem');
   expect(items).toHaveLength(2);
 
-  expect(screen.getByText(/Page\s*1\s*\/\s*3/i)).toBeInTheDocument();
+  const nav = screen.getByRole('navigation', { name: /Paginación/i });
+  expect(nav.textContent).toMatch(/1\s*\/\s*3/);
 });
 
 it('llama onPageChange al clickear Prev y Next en página intermedia', async () => {
@@ -83,8 +84,8 @@ it('llama onPageChange al clickear Prev y Next en página intermedia', async () 
 
   renderWithRouter(<MovieList data={pagedData} onPageChange={onPageChange} />);
 
-  const prevBtn = screen.getByRole('button', { name: /Previous page/i });
-  const nextBtn = screen.getByRole('button', { name: /Next page/i });
+  const prevBtn = screen.getByRole('button', { name: /Página previa/i });
+  const nextBtn = screen.getByRole('button', { name: /Página siguiente/i });
 
   expect(prevBtn).not.toBeDisabled();
   expect(nextBtn).not.toBeDisabled();
@@ -111,8 +112,8 @@ it('deshabilita Prev en primera página y Next en última página', () => {
     />
   );
 
-  const prevFirst = screen.getByRole('button', { name: /Previous page/i });
-  const nextFirst = screen.getByRole('button', { name: /Next page/i });
+  const prevFirst = screen.getByRole('button', { name: /Página previa|Anterior|Prev/i });
+  const nextFirst = screen.getByRole('button', { name: /Página siguiente|Siguiente|Next/i });
 
   expect(prevFirst).toBeDisabled();
   expect(nextFirst).not.toBeDisabled();
@@ -131,8 +132,8 @@ it('deshabilita Prev en primera página y Next en última página', () => {
     />
   );
 
-  const prevLast = screen.getByRole('button', { name: /Previous page/i });
-  const nextLast = screen.getByRole('button', { name: /Next page/i });
+  const prevLast = screen.getByRole('button', { name: /Página previa|Anterior|Prev/i });
+  const nextLast = screen.getByRole('button', { name: /Página siguiente|Siguiente|Next/i });
 
   expect(prevLast).not.toBeDisabled();
   expect(nextLast).toBeDisabled();

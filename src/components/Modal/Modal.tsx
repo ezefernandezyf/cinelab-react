@@ -136,7 +136,7 @@ export const Modal = ({
 
   const portalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
       onMouseDown={(e) => {
         if (!closeOnBackdrop) return;
         if (e.target === e.currentTarget) {
@@ -144,22 +144,33 @@ export const Modal = ({
         }
       }}
     >
-      <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
+      {/* Backdrop: slightly blurred and translucent */}
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        aria-hidden="true"
+      />
 
+      {/* Dialog */}
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
-        className="relative z-10 w-full max-w-4xl mx-4 bg-white dark:bg-slate-900 rounded-lg shadow-xl p-4"
+        className="relative z-10 w-full max-w-4xl mx-auto bg-white dark:bg-slate-900 rounded-lg shadow-xl transform transition-all motion-safe:animate-fade-in-up overflow-hidden"
         onMouseDown={(e) => e.stopPropagation()}
+        style={{ maxHeight: '90vh' }}
       >
-        <h2 id={titleId} className="sr-only">
-          {title}
-        </h2>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-700">
+          <h2 id={titleId} className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+            {title ?? ''}
+          </h2>
+          <div></div>
+        </div>
 
-        {children}
+        <div className="px-4 py-4 overflow-auto" style={{ maxHeight: 'calc(90vh - 72px)' }}>
+          {children}
+        </div>
       </div>
     </div>
   );
