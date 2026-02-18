@@ -156,7 +156,7 @@ describe('MovieDetailPage', () => {
     expect(['high', 'auto', null]).toContain(poster.getAttribute('fetchpriority'));
 
     const actorImg = screen.getByText(/Actor One/i);
-    expect(actorImg).toBeInTheDocument;
+    expect(actorImg).toBeInTheDocument();
 
     expect(screen.getByText(/Similar Movie/i)).toBeInTheDocument();
 

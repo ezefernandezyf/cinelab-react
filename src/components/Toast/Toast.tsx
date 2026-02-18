@@ -51,8 +51,12 @@ function Toast({ item, onClose }: { item: ToastItem; onClose: (id: string) => vo
             onClick={() => {
               try {
                 onAction();
-              } catch {}
-              onClose(id);
+              } catch (err) {
+                // Log the error so ESLint rule `no-empty` isn't violated and we can debug if needed
+                console.error('Toast action failed:', err);
+              } finally {
+                onClose(id);
+              }
             }}
             className="text-xs px-3 py-1 rounded-md bg-transparent text-cinematic-accent hover:bg-cinematic-accent/10 transition focus:outline-none focus:ring-2 focus:ring-cinematic-accent"
             aria-label={actionLabel}
