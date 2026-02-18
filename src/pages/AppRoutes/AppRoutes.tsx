@@ -5,6 +5,8 @@ import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import SearchPage from '../SearchPage/SearchPage';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
 import MovieDetailPage from '../MovieDetail/MovieDetailPage';
+import PrivacyPage from '../PrivacyPage/PrivacyPage';
+import AboutPage from '../AboutPage/AboutPage';
 
 export const AppRoutes = (): React.JSX.Element => {
   return (
@@ -15,6 +17,8 @@ export const AppRoutes = (): React.JSX.Element => {
         <Route path="search" element={<SearchPage />} />
         <Route path="favorites" element={<FavoritesPage />} />
         <Route path="movie/:id" element={<MovieDetailPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="not-found" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />
       </Route>
